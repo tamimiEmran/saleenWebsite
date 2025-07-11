@@ -388,7 +388,27 @@ button:hover {
     white-space: nowrap;
     border: 0;
 }
+/* Add this to your styles.css file temporarily to debug */
 
+/* Force grievance section to be visible when not hidden */
+#grievanceSection:not(.hidden) {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: relative !important;
+    z-index: 100 !important;
+}
+
+/* Ensure the form is visible */
+#grievanceForm {
+    display: block !important;
+    opacity: 1 !important;
+}
+
+/* Debug: Add a red border to see if element exists */
+#grievanceSection {
+    border: 2px solid red !important; /* Remove this after debugging */
+}
 /* Modal Styles */
 .modal-overlay {
     position: fixed;

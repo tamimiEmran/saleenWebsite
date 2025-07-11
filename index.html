@@ -167,53 +167,69 @@
                 </div>
             </div>
         
-        
-        <!-- Replace your grievanceSection div with this: -->
-        <div id="grievanceSection" class="card hidden" style="max-width: 600px; min-height: 600px;">
+        </div>
+        <!-- This is the corrected grievance section that should replace the existing one in index.html -->
+        <!-- Find this section around line 144 in your index.html and replace it with: -->
+
+        <div id="grievanceSection" class="card hidden" style="max-width: 600px;">
             <button class="back-button" onclick="showMainMenu()">← Back to Main Menu</button>
 
             <h2 style="text-align: center; margin-bottom: 30px;">Submit a Grievance 🌹</h2>
 
-            <form id="grievanceForm" style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
-                <div style="display: flex; flex-direction: column; gap: 15px;">
-                    <label for="grievanceTitle" class="sr-only">Title</label>
-                    <input id="grievanceTitle" name="title" type="text" placeholder="Title" required>
+        <form id="grievanceForm">
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <label for="grievanceTitle" class="sr-only">Title</label>
+                
 
-                    <label for="grievanceDetails" class="sr-only">What's bothering you?</label>
-                    <textarea id="grievanceDetails" name="details" placeholder="What's bothering you?" rows="4" required></textarea>
+                <label for="grievanceDetails" class="sr-only">What's bothering you?</label>
+                <textarea id="grievanceDetails" name="details" placeholder="What's bothering you?" rows="6" required
+                        style="width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; resize: vertical;"></textarea>
 
-                    <div class="field-group" style="display: flex; flex-direction: column; gap: 5px;">
-                        <label for="grievanceMood">Mood:</label>
-                        <select id="grievanceMood" name="mood">
-                            <option value="angry">😡 Angry</option>
-                            <option value="sad">😢 Sad</option>
-                            <option value="neutral">😐 Neutral</option>
-                            <option value="happy">😊 Happy</option>
-                        </select>
-                    </div>
-
-                    <div class="field-group" style="display: flex; flex-direction: column; gap: 5px;">
-                        <label for="grievanceSeverity">Severity:</label>
-                        <select id="grievanceSeverity" name="severity">
-                            <option value="kitkat" selected>A chunky kitkat would fix this 👹</option>
-                            <option value="minor">Minor inconvenience 🙁</option>
-                            <option value="major">Major issue 😱</option>
-                            <option value="critical">Critical emergency 🚨</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" style="margin-top: 20px;">Submit 💌</button>
+                <div class="field-group" style="display: flex; flex-direction: column; gap: 5px;">
+                    <label for="grievanceMood" style="font-weight: bold; color: #667eea;">Mood:</label>
+                    <select id="grievanceMood" name="mood" 
+                            style="width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px;">
+                        <option value="angry">😡 Angry</option>
+                        <option value="sad">😢 Sad</option>
+                        <option value="neutral">😐 Neutral</option>
+                        <option value="happy">😊 Happy</option>
+                    </select>
                 </div>
-            </form>
-            
-            <!-- Optional: Show submitted grievances -->
-            <div id="grievanceHistory" style="margin-top: 30px; display: none;">
-                <h3>Recent Submissions</h3>
-                <div id="grievanceList"></div>
+
+                <div class="field-group" style="display: flex; flex-direction: column; gap: 5px;">
+                    <label for="grievanceSeverity" style="font-weight: bold; color: #667eea;">Severity:</label>
+                    <select id="grievanceSeverity" name="severity"
+                            style="width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px;">
+                        <option value="kitkat" selected>A chunky kitkat would fix this 👹</option>
+                        <option value="minor">Minor inconvenience 🙁</option>
+                        <option value="major">Major issue 😱</option>
+                        <option value="critical">Critical emergency 🚨</option>
+                    </select>
+                </div>
+
+                <button type="submit" 
+                        style="background: linear-gradient(45deg, #ff5fa2, #e04f8b); 
+                            color: white; 
+                            border: none; 
+                            padding: 15px 30px; 
+                            border-radius: 10px; 
+                            font-size: 18px; 
+                            font-weight: bold;
+                            cursor: pointer; 
+                            margin-top: 20px;
+                            transition: transform 0.3s, box-shadow 0.3s;">
+                    Submit 💌
+                </button>
             </div>
+        </form>
+        
+        <!-- Optional: Show submitted grievances -->
+        <div id="grievanceHistory" style="margin-top: 30px; display: none;">
+            <h3 style="color: #667eea;">Recent Submissions</h3>
+            <div id="grievanceList"></div>
         </div>
-        
-        
+    </div>
+                
         
         
         
