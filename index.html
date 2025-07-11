@@ -186,29 +186,22 @@
                         style="width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; resize: vertical;"></textarea>
 
                 <div class="field-group" style="display: flex; flex-direction: column; gap: 5px;">
-                    <label for="grievanceMood" style="font-weight: bold; color: #667eea;">Mood:</label>
-                    <select id="grievanceMood" name="mood" 
-                            style="width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px;">
-                        <option value="angry">😡 Angry</option>
-                        <option value="sad">😢 Sad</option>
-                        <option value="neutral">😐 Neutral</option>
-                        <option value="happy">😊 Happy</option>
-                    </select>
+                    <label for="grievanceMood" style="font-weight: bold; color: #667eea;">How upset are you?:</label>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <input type="range" id="grievanceMood" name="mood" min="1" max="10" value="5"
+                               oninput="document.getElementById('moodValue').textContent = this.value"
+                               style="flex: 1; height: 15px; accent-color: #667eea; border-radius: 10px;">
+                        <span id="moodValue" style="font-size: 18px; font-weight: bold; color: #667eea; min-width: 30px; text-align: center;">5</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                        <span style="font-size: 16px;">بسيطة بس صحصح</span>
+                        <span style="font-size: 16px;">حلعن ربك</span>
+                    </div>
                 </div>
 
-                <div class="field-group" style="display: flex; flex-direction: column; gap: 5px;">
-                    <label for="grievanceSeverity" style="font-weight: bold; color: #667eea;">Severity:</label>
-                    <select id="grievanceSeverity" name="severity"
-                            style="width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px;">
-                        <option value="kitkat" selected>A chunky kitkat would fix this 👹</option>
-                        <option value="minor">Minor inconvenience 🙁</option>
-                        <option value="major">Major issue 😱</option>
-                        <option value="critical">Critical emergency 🚨</option>
-                    </select>
-                </div>
 
                 <button type="submit" 
-                        style="background: linear-gradient(45deg, #ff5fa2, #e04f8b); 
+                        style="background: linear-gradient(45deg, #d44742, #c9412c); 
                             color: white; 
                             border: none; 
                             padding: 15px 30px; 
@@ -218,7 +211,7 @@
                             cursor: pointer; 
                             margin-top: 20px;
                             transition: transform 0.3s, box-shadow 0.3s;">
-                    Submit 💌
+                    Send
                 </button>
             </div>
         </form>
