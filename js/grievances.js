@@ -18,12 +18,22 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Add the grievance to the array
         grievances.push(entry);
+        
+        // Show success message
+        alert('Grievance submitted—thank you! 💌');
+        
+        // Reset the form
         form.reset();
-        alert('Grievance submitted\u2014thank you!');
-
+        
+        // Auto-save to NAS
         if (typeof autoSaveToNAS === 'function') {
             autoSaveToNAS();
         }
+        
+        // Optional: Go back to main menu after submission
+        // Uncomment the line below if you want to return to main menu
+        // showMainMenu();
     });
 });

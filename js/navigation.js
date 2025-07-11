@@ -32,12 +32,24 @@ function showConfessionGame() {
     }
 
 function showGrievanceGame() {
+    // Hide all other sections
     document.querySelectorAll('.card').forEach(card => {
+        card.classList.add('hidden');
+        // Also ensure display is set to none for other sections
         if (card.id !== 'grievanceSection') {
-            card.classList.add('hidden');
+            card.style.display = 'none';
         }
     });
+    
+    // Show grievance section
     const section = document.getElementById('grievanceSection');
     section.classList.remove('hidden');
     section.style.display = 'flex';
+    
+    // Ensure the form is visible and reset
+    const form = document.getElementById('grievanceForm');
+    if (form) {
+        form.style.display = 'flex';
+        form.reset(); // Clear any previous entries
+    }
 }
