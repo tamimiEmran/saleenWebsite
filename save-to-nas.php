@@ -40,6 +40,7 @@ switch ($method) {
                     'articles' => [],
                     'confessionHistory' => [],
                     'pointsAccumulated' => 0,
+                    'grievances' => [],
                     'concepts' => [
                         "symbols", "metaphors", "narratives", 
                         "marriage as codependency", "emotional disregulation", 

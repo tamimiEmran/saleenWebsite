@@ -29,4 +29,15 @@ function showConfessionGame() {
     
     // Initialize the probability display
     updateProbability();
+    }
+
+function showGrievanceGame() {
+    document.querySelectorAll('.card').forEach(card => {
+        if (card.id !== 'grievanceSection') {
+            card.classList.add('hidden');
+        }
+    });
+    const section = document.getElementById('grievanceSection');
+    section.classList.remove('hidden');
+    section.style.display = 'flex';
 }

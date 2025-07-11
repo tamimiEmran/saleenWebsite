@@ -142,7 +142,8 @@ async function loadFromNAS() {
                     articles: result.data.articles || [],
                     confessionHistory: result.data.confessionHistory || [],
                     pointsAccumulated: result.data.pointsAccumulated || 0,
-                    concepts: result.data.concepts || []
+                    concepts: result.data.concepts || [],
+                    grievances: result.data.grievances || []
                 });
                 
                 // Update global variables with loaded data
@@ -154,6 +155,7 @@ async function loadFromNAS() {
                     "marriage as codependency", "emotional disregulation", 
                     "Life as simulation"
                 ];
+                grievances = result.data.grievances || [];
                 
                 // CRITICAL: Mark data as loaded
                 dataLoaded = true;
@@ -220,6 +222,7 @@ async function saveToNAS() {
             confessionHistory,
             pointsAccumulated,
             concepts,
+            grievances, // Include grievances in the save
             // Add timestamp for tracking
             lastClientSave: new Date().toISOString()
         };
@@ -241,7 +244,8 @@ async function saveToNAS() {
             articles: dataToSave.articles.length,
             confessions: dataToSave.confessionHistory.length,
             points: dataToSave.pointsAccumulated,
-            concepts: dataToSave.concepts.length
+            concepts: dataToSave.concepts.length,
+            grievances: dataToSave.grievances.length
         });
         
         const response = await fetch(API_URL, {
@@ -267,7 +271,7 @@ async function saveToNAS() {
             
             // Update initial state after successful save
             initialDataState = JSON.stringify({
-                articles, confessionHistory, pointsAccumulated, concepts
+                articles, confessionHistory, pointsAccumulated, concepts, grievances
             });
             
             return true;
@@ -476,7 +480,8 @@ window.testNASConnection = async function() {
         dataLoaded,
         isLoading,
         articlesCount: articles.length,
-        confessionsCount: confessionHistory.length
+        confessionsCount: confessionHistory.length,
+        grievancesCount: grievances.length
     });
     
     showNASNotification('🔄 Testing NAS connection...', 'info');

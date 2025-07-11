@@ -350,6 +350,44 @@ button:hover {
 .result-message h2, .result-message h3, .result-message p {
     color: white !important;
 }
+/* Grievance Game Styles */
+#grievanceSection form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#grievanceSection input,
+#grievanceSection textarea,
+#grievanceSection select {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+#grievanceSection button[type="submit"] {
+    background: linear-gradient(45deg, #ff5fa2, #e04f8b);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}
 
 /* Modal Styles */
 .modal-overlay {

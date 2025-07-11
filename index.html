@@ -24,6 +24,7 @@
             <div class="nav-buttons">
                 <button onclick="showArticles()">📝 Our Article Collection</button>
                 <button onclick="showConfessionGame()">🎲 Confession Roulette</button>
+                <button onclick="showGrievanceGame()">💌 Submit a Grievance</button>
             </div>
         </div>
 
@@ -165,6 +166,49 @@
                     </div>
                 </div>
             </div>
+        
+        
+        <!-- Grievance Game -->
+        <div id="grievanceSection" class="card hidden" style="max-width: 600px; height: 90vh; display: none; flex-direction: column; padding: 20px;">
+            <button class="back-button" onclick="showMainMenu()">← Back to Main Menu</button>
+
+            <h2 style="text-align: center;">Submit a Grievance 🌹</h2>
+
+            <form id="grievanceForm" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <label for="grievanceTitle" class="sr-only">Title</label>
+                <input id="grievanceTitle" name="title" type="text" placeholder="Title" required>
+
+                <label for="grievanceDetails" class="sr-only">What's bothering you?</label>
+                <textarea id="grievanceDetails" name="details" placeholder="What's bothering you?" rows="4" required></textarea>
+
+                <div class="field-group">
+                    <label for="grievanceMood">Mood:</label>
+                    <select id="grievanceMood" name="mood">
+                        <option value="angry">😡 Angry</option>
+                        <option value="sad">😢 Sad</option>
+                        <option value="neutral">😐 Neutral</option>
+                        <option value="happy">😊 Happy</option>
+                    </select>
+                </div>
+
+                <div class="field-group">
+                    <label for="grievanceSeverity">Severity:</label>
+                    <select id="grievanceSeverity" name="severity">
+                        <option value="kitkat" selected>A chunky kitkat would fix this 👹</option>
+                        <option value="minor">Minor inconvenience 🙁</option>
+                        <option value="major">Major issue 😱</option>
+                        <option value="critical">Critical emergency 🚨</option>
+                    </select>
+                </div>
+
+                <button type="submit">Submit 💌</button>
+            </form>
+        </div>
+        
+        
+        
+        
+        
         </div>
     </div>
 
@@ -178,6 +222,7 @@
     <script src="./js/navigation.js"></script>
     <script src="./js/articles.js"></script>
     <script src="./js/confessions.js"></script>
+    <script src="./js/grievances.js"></script>
     <script src="./js/main.js"></script>
 </body>
 </html>

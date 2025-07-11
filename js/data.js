@@ -29,3 +29,5 @@ let concepts = [
 ];
 
 let selectedConcepts = [];
+// Grievance submissions
+let grievances = [];
