@@ -28,6 +28,9 @@ const Navigation = (function() {
             case 'suggestions':
                 Suggestions.show();
                 break;
+            case 'grievances':
+                Grievances.show();
+                break;
         }
     }
     
@@ -40,6 +43,7 @@ const Navigation = (function() {
                     <button onclick="Navigation.show('articles')">📝 Our Article Collection</button>
                     <button onclick="Navigation.show('confessions')">🎲 Confession Roulette</button>
                     <button onclick="Navigation.show('suggestions')">📬 Suggestions Box</button>
+                    <button onclick="Navigation.show('grievances')">📋 Grievance Tracker</button>
                 </div>
                 
                 <!-- Settings Icon at bottom -->
