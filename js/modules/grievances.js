@@ -117,11 +117,6 @@ const Grievances = (function() {
         
         AppState.set('grievances', grievances);
         
-        // Clear form
-        document.getElementById('grievanceDetails').value = '';
-        document.getElementById('grievanceSeverity').value = '2';
-        document.getElementById('severityLabel').textContent = 'Medium';
-        
         // Refresh view
         show();
         

@@ -18,9 +18,11 @@ const Suggestions = (function() {
 
     /**
      * Main function to render the entire suggestions component.
+     * This is the primary entry point called by other modules.
      */
     function show() {
         const container = document.querySelector('.container');
+        // This HTML structure is designed for the new mobile and desktop CSS
         container.innerHTML = `
             <div class="card wide-card" id="suggestionsSection">
                 <button class="back-button" onclick="Navigation.show('menu')">← Back to Main Menu</button>
@@ -38,6 +40,22 @@ const Suggestions = (function() {
                     </div>
                     
                     <div class="suggestion-input-area">
+                        <div class="suggestion-options">
+                            <div class="icon-selector">
+                                ${Object.entries(icons).map(([key, icon]) => `
+                                    <button class="icon-btn" data-icon="${key}" 
+                                            onclick="Suggestions.selectIcon('${key}')"
+                                            title="${icon.label}">
+                                        ${icon.emoji}
+                                    </button>
+                                `).join('')}
+                            </div>
+                            
+                            <!-- Unified toggle button for both web and mobile -->
+                            <button class="for-us-toggle-btn ${forUs ? 'active' : ''}" onclick="Suggestions.toggleForUs()">
+                                For Us 💕
+                            </button>
+                        </div>
                         <div class="input-row">
                             <input type="text" id="suggestionInput" 
                                    placeholder="Add a movie, song, link..." 
@@ -45,51 +63,34 @@ const Suggestions = (function() {
                                    onkeypress="Suggestions.handleEnter(event)" />
                             <button onclick="Suggestions.addSuggestion()" id="addBtn" disabled>Add</button>
                         </div>
-                        <div class="suggestion-options">
-                            <div class="icon-selector">
-                                ${Object.entries(icons).map(([key, icon]) => `
-                                    <button class="icon-btn ${key === selectedIcon ? 'selected' : ''}" data-icon="${key}" 
-                                            onclick="Suggestions.selectIcon('${key}')"
-                                            title="${icon.label}">
-                                        ${icon.emoji}
-                                    </button>
-                                `).join('')}
-                            </div>
-                            <div class="for-us-toggle-container">
-                                <input type="checkbox" id="forUsCheck" onchange="Suggestions.updateForUsState()" ${forUs ? 'checked' : ''}>
-                                <label for="forUsCheck">For Us 💕</label>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         `;
 
-        updateView();
+        // Set initial state correctly after rendering
+        selectIcon(selectedIcon);
+        goToCard(currentCard);
     }
 
     /**
-     * Renders the HTML for the three suggestion cards (Saleen, Emran, Us).
+     * Renders the HTML for the three suggestion cards.
      */
     function renderCards() {
         const suggestions = AppState.get('suggestions') || { forSaleen: [], forEmran: [], forUs: [] };
-        
         const cards = [
             { title: 'For Saleen', data: suggestions.forSaleen, key: 'forSaleen' },
             { title: 'For Emran', data: suggestions.forEmran, key: 'forEmran' },
             { title: 'For Us 💕', data: suggestions.forUs, key: 'forUs' }
         ];
         
-        return cards.map((card, index) => `
-            <div class="suggestion-card" data-index="${index}">
+        return cards.map((card) => `
+            <div class="suggestion-card" data-key="${card.key}">
                 <div class="card-header">
-                    <h3>${card.title}</h3>
                     <div class="filter-row">
                         <span class="filter-label">Filter:</span>
                         ${Object.entries(icons).map(([key, icon]) => `
-                            <button class="filter-btn" data-icon="${key}" 
-                                    onclick="Suggestions.setFilter('${key}')"
-                                    title="${icon.label}">
+                            <button class="filter-btn" data-icon="${key}" onclick="Suggestions.setFilter('${key}')" title="${icon.label}">
                                 ${icon.emoji}
                             </button>
                         `).join('')}
@@ -102,7 +103,7 @@ const Suggestions = (function() {
             </div>
         `).join('');
     }
-
+    
     /**
      * Renders the individual suggestion items for a given list.
      */
@@ -128,10 +129,7 @@ const Suggestions = (function() {
     function getSuggestionHTML(suggestion, cardKey) {
         return `
             <div class="suggestion-item ${suggestion.completed ? 'completed' : ''}" data-id="${suggestion.id}">
-                <input type="checkbox" 
-                       id="check-${suggestion.id}"
-                       ${suggestion.completed ? 'checked' : ''}
-                       onchange="Suggestions.toggleComplete('${cardKey}', ${suggestion.id})" />
+                <input type="checkbox" id="check-${suggestion.id}" ${suggestion.completed ? 'checked' : ''} onchange="Suggestions.toggleComplete('${cardKey}', ${suggestion.id})">
                 <label for="check-${suggestion.id}">
                     <span class="suggestion-icon">${icons[suggestion.type]?.emoji || '🔗'}</span>
                     ${suggestion.isLink ? 
@@ -146,43 +144,22 @@ const Suggestions = (function() {
 
     // --- UI & EVENT HANDLERS ---
 
-    /**
-     * Switches the visible card and updates tab UI.
-     */
     function goToCard(index) {
         currentCard = index;
-        updateView();
-    }
-
-    /**
-     * Updates the view to show the current card and active tab.
-     */
-    function updateView() {
         const wrapper = document.getElementById('cardsWrapper');
         if (wrapper) {
             wrapper.style.transition = 'transform 0.3s ease';
-            wrapper.style.transform = `translateX(-${currentCard * 33.333}%)`;
+            wrapper.style.transform = `translateX(-${currentCard * 100 / 3}%)`;
         }
         
-        document.querySelectorAll('.suggestion-tabs .tab-btn').forEach((btn, index) => {
-            btn.classList.toggle('active', index === currentCard);
-        });
-
-        // Ensure filter buttons reflect the active state
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.icon === activeFilter);
+        document.querySelectorAll('.suggestion-tabs .tab-btn').forEach((btn, i) => {
+            btn.classList.toggle('active', i === currentCard);
         });
     }
 
-    /**
-     * Handles user input in the suggestion field for automatic icon detection.
-     */
     function handleInput() {
         const input = document.getElementById('suggestionInput');
-        const canAdd = input.value.trim().length > 0;
-        document.getElementById('addBtn').disabled = !canAdd;
-
-        // Auto-detect URL and select link icon
+        document.getElementById('addBtn').disabled = !input.value.trim();
         if (isValidUrl(input.value.trim())) {
             selectIcon('link');
         }
@@ -201,21 +178,25 @@ const Suggestions = (function() {
         });
     }
     
-    function updateForUsState() {
-        forUs = document.getElementById('forUsCheck').checked;
+    /**
+     * Toggles the 'forUs' state and updates the UI of the button.
+     * Replaces the old checkbox logic.
+     */
+    function toggleForUs() {
+        forUs = !forUs;
+        const btn = document.querySelector('.for-us-toggle-btn');
+        if (btn) {
+            btn.classList.toggle('active', forUs);
+        }
     }
 
     // --- LOGIC & DATA MANIPULATION ---
 
     function isValidUrl(string) {
-        // A simple regex is often sufficient and more forgiving than the URL constructor for user input.
         const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
         return urlRegex.test(string);
     }
     
-    /**
-     * Adds a new suggestion without a full page reload.
-     */
     function addSuggestion() {
         const input = document.getElementById('suggestionInput');
         const content = input.value.trim();
@@ -223,13 +204,9 @@ const Suggestions = (function() {
         
         const currentUser = Navigation.getCurrentUser();
         const suggestion = {
-            id: Date.now(),
-            type: selectedIcon,
-            content: content,
-            isLink: isValidUrl(content),
-            completed: false,
-            date: new Date().toLocaleDateString(),
-            from: currentUser
+            id: Date.now(), type: selectedIcon, content,
+            isLink: isValidUrl(content), completed: false,
+            date: new Date().toLocaleDateString(), from: currentUser
         };
         
         const targetCard = forUs ? 'forUs' : (currentUser === 'Saleen' ? 'forEmran' : 'forSaleen');
@@ -238,23 +215,16 @@ const Suggestions = (function() {
         suggestions[targetCard].push(suggestion);
         AppState.set('suggestions', suggestions);
         
-        // --- Dynamic UI Update (No Reload) ---
         const listElement = document.getElementById(`list-${targetCard}`);
         const emptyMessage = listElement.querySelector('.empty-message');
-        if (emptyMessage) emptyMessage.remove(); // Remove 'empty' message if it exists
-
-        const newItemHTML = getSuggestionHTML(suggestion, targetCard);
-        listElement.insertAdjacentHTML('beforeend', newItemHTML);
+        if (emptyMessage) emptyMessage.remove();
+        listElement.insertAdjacentHTML('beforeend', getSuggestionHTML(suggestion, targetCard));
         
-        // --- Cleanup and Feedback ---
         input.value = '';
-        handleInput(); // Resets button state
+        handleInput();
         Utils.notify(`Suggestion added! ${icons[suggestion.type].emoji}`, 'success');
     }
     
-    /**
-     * Toggles a suggestion's completed state without a full page reload.
-     */
     function toggleComplete(cardKey, suggestionId) {
         const suggestions = AppState.get('suggestions');
         const suggestion = suggestions[cardKey].find(s => s.id === suggestionId);
@@ -263,43 +233,38 @@ const Suggestions = (function() {
             suggestion.completed = !suggestion.completed;
             AppState.set('suggestions', suggestions);
 
-            // --- Dynamic UI Update (No Reload) ---
             const itemElement = document.querySelector(`.suggestion-item[data-id="${suggestionId}"]`);
             if (itemElement) {
                 itemElement.classList.toggle('completed', suggestion.completed);
-                // Move to end of list if completed
-                if (suggestion.completed) {
-                    itemElement.parentElement.appendChild(itemElement);
-                }
+                if (suggestion.completed) itemElement.parentElement.appendChild(itemElement);
             }
         }
     }
     
-    /**
-     * Sets or toggles a global filter and refreshes the card lists.
-     */
     function setFilter(type) {
         activeFilter = activeFilter === type ? null : type;
-        // A targeted re-render is better than a full 'show()' call
         const wrapper = document.getElementById('cardsWrapper');
         if (wrapper) {
             wrapper.innerHTML = renderCards();
-            updateView(); // Re-apply active states
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.icon === activeFilter);
+            });
         }
     }
     
     function clearFilter() {
-        setFilter(null); // Calling setFilter with null clears it
+        setFilter(null);
     }
     
     // --- PUBLIC API ---
+    // These are the only functions accessible from other modules.
     return {
         show,
         goToCard,
         handleInput,
         handleEnter,
         selectIcon,
-        updateForUsState,
+        toggleForUs, // New internal function exposed for the onclick event
         addSuggestion,
         toggleComplete,
         setFilter,

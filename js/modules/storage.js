@@ -65,6 +65,8 @@ const Storage = (function() {
                     confessionHistory: result.data.confessionHistory || [],
                     pointsAccumulated: result.data.pointsAccumulated || 0,
                     concepts: result.data.concepts || AppState.get('concepts'),
+                    grievances: result.data.grievances || [],
+                    suggestions: result.data.suggestions || { forSaleen: [], forEmran: [], forUs: [] },
                     dataLoaded: true
                 });
                 
@@ -95,6 +97,8 @@ const Storage = (function() {
                 confessionHistory: AppState.get('confessionHistory'),
                 pointsAccumulated: AppState.get('pointsAccumulated'),
                 concepts: AppState.get('concepts'),
+                grievances: AppState.get('grievances'),
+                suggestions: AppState.get('suggestions'),
                 lastSaved: new Date().toISOString()
             };
             
@@ -138,7 +142,7 @@ const Storage = (function() {
         clearTimeout(saveTimeout);
         saveTimeout = setTimeout(() => {
             save();
-        }, 3000);
+        }, 500);
     }
     
     async function testConnection() {
