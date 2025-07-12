@@ -1,4 +1,8 @@
-/* Global Styles */
+/* ===================================================================
+   GLOBAL & LAYOUT STYLES
+   =================================================================== */
+
+/* --- General Reset & Body --- */
 * {
     margin: 0;
     padding: 0;
@@ -10,8 +14,10 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     color: #333;
+    line-height: 1.6;
 }
 
+/* --- Main Container --- */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -22,23 +28,43 @@ body {
     justify-content: center;
 }
 
-/* Card Styles */
+/* --- Utility Classes --- */
+.hidden {
+    display: none !important;
+}
+
+
+/* ===================================================================
+   CARD & CONTENT STYLES
+   =================================================================== */
+
+/* --- Base Card Style --- */
 .card {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 20px;
     padding: 40px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
     text-align: center;
     width: 100%;
     max-width: 500px;
 }
 
+/* --- Wider Card Variant --- */
 .wide-card {
     max-width: 900px;
 }
 
-/* Typography */
+
+/* ===================================================================
+   TYPOGRAPHY
+   =================================================================== */
+
+h1, h2, h3 {
+    margin-bottom: 0.5em;
+    font-weight: normal;
+}
+
 h1 {
     color: #764ba2;
     margin-bottom: 30px;
@@ -51,27 +77,18 @@ h2 {
     font-size: 2em;
 }
 
-/* Form Elements */
-.login-form {
+h3 {
+    color: #667eea;
     margin-bottom: 20px;
+    font-size: 1.5em;
 }
 
-input[type="password"] {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    font-size: 16px;
-    margin-bottom: 20px;
-    transition: border-color 0.3s;
-}
 
-input[type="password"]:focus {
-    border-color: #667eea;
-    outline: none;
-}
+/* ===================================================================
+   BUTTONS
+   =================================================================== */
 
-/* Buttons */
+/* --- General Button Style --- */
 button {
     background: linear-gradient(45deg, #667eea, #764ba2);
     color: white;
@@ -86,9 +103,17 @@ button {
 
 button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* --- Button Groups --- */
 .nav-buttons {
     display: flex;
     gap: 20px;
@@ -96,17 +121,85 @@ button:hover {
     flex-wrap: wrap;
 }
 
+.article-actions,
+.edit-actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* --- Specific Button Variants --- */
 .back-button {
     background: #6c757d;
-    margin-bottom: 20px;
 }
 
-/* Utility Classes */
-.hidden {
-    display: none !important;
+.edit-btn {
+    background: linear-gradient(45deg, #ffecd2, #fcb69f);
 }
 
-/* Articles Section */
+.save-btn {
+    background: linear-gradient(45deg, #4ecdc4, #44a08d);
+}
+
+.cancel-btn {
+    background: #6c757d;
+}
+
+
+/* ===================================================================
+   FORMS
+   =================================================================== */
+
+/* --- General Form Inputs --- */
+input[type="text"],
+input[type="password"],
+textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    font-family: 'Georgia', serif;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+    border-color: #667eea;
+    outline: none;
+}
+
+/* --- Textarea Specifics --- */
+textarea {
+    min-height: 200px;
+    resize: vertical;
+}
+
+/* --- Article & Edit Forms --- */
+.article-form,
+.edit-article-form {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.edit-article-form {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+.edit-article-form textarea {
+    min-height: 250px;
+}
+
+
+/* ===================================================================
+   ARTICLES SECTION
+   =================================================================== */
+
+/* --- Articles Grid & Cards --- */
 .articles-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -118,7 +211,7 @@ button:hover {
     background: white;
     border-radius: 15px;
     padding: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
 }
 
@@ -126,6 +219,7 @@ button:hover {
     transform: translateY(-5px);
 }
 
+/* --- Concept Suggestions (Tags) --- */
 .concept-suggestions {
     background: linear-gradient(45deg, #ff9a9e, #fecfef);
     border-radius: 15px;
@@ -141,48 +235,33 @@ button:hover {
 }
 
 .tag {
-    background: rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.8);
     padding: 8px 15px;
     border-radius: 20px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.tag:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
 }
 
 .tag.selected {
     background: #667eea;
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .selected-concepts {
-    background: rgba(255,255,255,0.9);
+    background: rgba(255, 255, 255, 0.9);
     padding: 15px;
     border-radius: 10px;
     border: 2px dashed #667eea;
 }
 
-/* Article Form */
-.article-form {
-    text-align: left;
-    margin-top: 20px;
-}
-
-.article-form input, .article-form textarea {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    font-size: 16px;
-}
-
-.article-form textarea {
-    min-height: 200px;
-    resize: vertical;
-}
-
-/* Full Article View */
+/* --- Full Article View --- */
 .full-article-view {
     text-align: left;
 }
@@ -205,59 +284,12 @@ button:hover {
     border-left: 4px solid #667eea;
 }
 
-.article-actions {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
 
-.edit-btn {
-    background: linear-gradient(45deg, #ffecd2, #fcb69f);
-}
+/* ===================================================================
+   CONFESSION GAME
+   =================================================================== */
 
-/* Edit Article Form */
-.edit-article-form {
-    background: #f8f9fa;
-    padding: 25px;
-    border-radius: 15px;
-    margin: 20px 0;
-}
-
-.edit-article-form h3 {
-    color: #667eea;
-    margin-bottom: 20px;
-}
-
-.edit-article-form input, .edit-article-form textarea {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    font-size: 16px;
-}
-
-.edit-article-form textarea {
-    min-height: 250px;
-    resize: vertical;
-}
-
-.edit-actions {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.save-btn {
-    background: linear-gradient(45deg, #4ecdc4, #44a08d);
-}
-
-.cancel-btn {
-    background: #6c757d;
-}
-
-/* Confession Game Styles */
+/* --- Main Container --- */
 .confession-container {
     text-align: center;
 }
@@ -275,19 +307,16 @@ button:hover {
     justify-content: center;
 }
 
-/* Vertical Slider Styles */
+/* --- Probability Slider (Vertical) --- */
+/* Note: This uses non-standard properties for styling. Behavior may vary across browsers. */
 #probabilitySlider {
-    -webkit-appearance: none;
+    -webkit-appearance: none; /* Hides default slider styles on WebKit browsers */
     appearance: none;
-}
-
-#probabilitySlider::-webkit-slider-track {
-    width: 40px;
-    height: 40px;
     background: transparent;
     cursor: pointer;
 }
 
+/* Thumb (the draggable part) for WebKit browsers */
 #probabilitySlider::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 40px;
@@ -295,120 +324,84 @@ button:hover {
     background: white;
     border: 3px solid #667eea;
     border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
 }
 
 #probabilitySlider::-webkit-slider-thumb:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-#probabilitySlider::-moz-range-track {
-    width: 40px;
-    height: 40px;
-    background: transparent;
-    cursor: pointer;
-}
-
+/* Thumb for Firefox */
 #probabilitySlider::-moz-range-thumb {
     width: 40px;
     height: 40px;
     background: white;
     border: 3px solid #667eea;
     border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     transition: all 0.3s ease;
 }
 
 #probabilitySlider::-moz-range-thumb:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Result Messages */
+/* Track (the bar) is kept transparent for a minimalist look */
+#probabilitySlider::-webkit-slider-runnable-track,
+#probabilitySlider::-moz-range-track {
+    background: transparent;
+    width: 40px; /* Width for vertical orientation context */
+    height: 40px; /* Height for horizontal orientation context */
+}
+
+/* --- Result Messages --- */
 .result-message {
     margin-top: 20px;
     padding: 20px;
     border-radius: 10px;
     font-weight: bold;
     font-size: 18px;
+    color: white;
+}
+
+.result-message h2,
+.result-message h3,
+.result-message p {
+    color: white !important; /* Override other heading colors */
 }
 
 .sent {
     background: #ff6b6b;
-    color: white;
 }
 
 .discarded {
     background: #4ecdc4;
-    color: white;
 }
 
-.result-message h2, .result-message h3, .result-message p {
-    color: white !important;
-}
 
-/* Modal Styles */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-}
+/* ===================================================================
+   SUGGESTIONS COMPONENT
+   =================================================================== */
 
-.modal-content {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    max-width: 400px;
-    width: 90%;
-}
-
-.modal-input {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    font-size: 16px;
-    margin: 15px 0;
-}
-
-.modal-buttons {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-}
-
-.modal-buttons button {
-    padding: 10px 20px;
-    font-size: 14px;
-}
-/* Suggestions Section Styles */
+/* --- Main Container & Layout --- */
 .suggestions-container {
     position: relative;
-    height: auto; /* Changed from fixed height */
-    min-height: 600px; /* Ensure minimum height */
-    overflow: visible; /* Changed from hidden */
+    min-height: 600px;
     display: flex;
     flex-direction: column;
 }
+
 .cards-wrapper {
     display: flex;
-    height: 400px; /* Fixed height for cards */
-    transition: transform 0.3s ease;
+    height: 400px;
+    width: 300%; /* To accommodate three suggestion cards */
     cursor: grab;
-    overflow: hidden; /* Hide overflow on cards wrapper */
-    width: 300%; /* Add this line */
+    overflow: hidden; /* Hide non-visible cards */
+    transition: transform 0.3s ease;
 }
 
 .cards-wrapper:active {
@@ -419,23 +412,18 @@ button:hover {
     flex: 0 0 33.333%;
     background: white;
     border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 0 10px;
     display: flex;
     flex-direction: column;
-    height: 100%; /* Fill the wrapper height */
+    height: 100%;
     overflow: hidden;
 }
 
+/* --- Card Header & Filters --- */
 .card-header {
     margin-bottom: 20px;
-}
-
-.card-header h3 {
-    color: #667eea;
-    margin-bottom: 10px;
-    font-size: 1.5em;
 }
 
 .filter-row {
@@ -478,22 +466,11 @@ button:hover {
     box-shadow: 0 2px 5px rgba(102, 126, 234, 0.3);
 }
 
-.filter-btn:hover {
-    border-color: #667eea;
-    transform: translateY(-1px);
-}
-
-.filter-btn.active {
-    background: #667eea;
-    border-color: #667eea;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 5px rgba(102, 126, 234, 0.3);
-}
-
+/* --- Suggestions List --- */
 .suggestions-list {
-    flex: 1;
+    flex: 1; /* Allows list to fill available space */
     overflow-y: auto;
-    padding-right: 10px;
+    padding-right: 10px; /* For scrollbar spacing */
 }
 
 .empty-message {
@@ -549,7 +526,8 @@ button:hover {
     flex-shrink: 0;
 }
 
-.suggestion-text {
+.suggestion-text,
+.suggestion-link {
     flex: 1;
     word-break: break-word;
 }
@@ -557,8 +535,6 @@ button:hover {
 .suggestion-link {
     color: #667eea;
     text-decoration: none;
-    flex: 1;
-    word-break: break-all;
 }
 
 .suggestion-link:hover {
@@ -571,6 +547,7 @@ button:hover {
     flex-shrink: 0;
 }
 
+/* --- Carousel Navigation Dots --- */
 .navigation-dots {
     display: flex;
     justify-content: center;
@@ -592,14 +569,13 @@ button:hover {
     transform: scale(1.3);
 }
 
+/* --- Suggestion Input Area --- */
 .suggestion-input-area {
     background: #f8f9fa;
     border-radius: 15px;
     padding: 20px;
     margin-top: 20px;
-    position: relative; /* Changed from potential absolute positioning */
-    z-index: 10;
-    display: block; /* Ensure it's displayed */
+    display: block;
 }
 
 .icon-selector {
@@ -612,17 +588,17 @@ button:hover {
 
 .icon-btn {
     background: white;
-    
+    border: 2px solid #ddd;
     padding: 5px;
     font-size: 24px;
-
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.2s;
-    width: 25px;
-    height: 25px;
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
-    justify-content: left;
+    justify-content: center;
 }
 
 .icon-btn:hover {
@@ -645,8 +621,8 @@ button:hover {
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.2s;
-    width: 25px;
-    height: 25px;
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -681,35 +657,12 @@ button:hover {
 }
 
 .input-row input {
-    flex: 1;
-    padding: 15px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    font-size: 16px;
-    background: white;
-    color: #333;
-}
-
-.input-row input:focus {
-    outline: none;
-    border-color: #667eea;
+    flex: 1; /* Input field takes remaining space */
 }
 
 .input-row button {
-    background: linear-gradient(45deg, #667eea, #764ba2);
-    color: white;
-    border: none;
     padding: 15px 25px;
-    border-radius: 10px;
     font-size: 20px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.input-row button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-    transform: none;
 }
 
 .input-row button:not(:disabled):hover {
@@ -717,31 +670,65 @@ button:hover {
     box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
 }
 
-/* Mobile responsive for suggestions */
-@media (max-width: 768px) {
-    .suggestions-container {
-        min-height: calc(100vh - 200px);
-        height: auto;
-    }
-    
-    .cards-wrapper {
-        height: 300px; /* Smaller height on mobile */
-    }
-    
-    .suggestion-input-area {
-        margin-top: 15px;
-        padding: 15px;
-    }
+
+/* ===================================================================
+   MODAL STYLES
+   =================================================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
 }
-/* Mobile Responsive Styles */
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    margin: 15px 0;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+
+/* ===================================================================
+   MOBILE RESPONSIVE STYLES (max-width: 768px)
+   =================================================================== */
 @media (max-width: 768px) {
+    /* --- Base Layout & Typography --- */
     .container {
         padding: 10px;
-        min-height: 100vh;
         align-items: flex-start;
         padding-top: 20px;
     }
-    
+
     .card {
         padding: 20px;
         margin: 10px;
@@ -750,21 +737,18 @@ button:hover {
         display: flex;
         flex-direction: column;
     }
-    
-    .wide-card {
-        max-width: 100%;
-    }
-    
+
     h1 {
         font-size: 1.8em;
         margin-bottom: 20px;
     }
-    
+
     h2 {
         font-size: 1.5em;
         margin-bottom: 15px;
     }
-    
+
+    /* --- Buttons --- */
     button {
         padding: 12px 20px;
         font-size: 14px;
@@ -772,7 +756,7 @@ button:hover {
         width: 100%;
         max-width: 300px;
     }
-    
+
     .nav-buttons {
         flex-direction: column;
         gap: 10px;
@@ -780,182 +764,123 @@ button:hover {
         align-items: center;
     }
     
-    /* Confession Game Mobile Styles */
+    .back-button {
+        position: static !important; /* Reset fixed positioning */
+        margin-bottom: 15px !important;
+        padding: 8px 15px !important;
+        font-size: 12px !important;
+        width: auto !important;
+        display: inline-block !important;
+    }
+
+    /* --- Forms --- */
+    input[type="text"],
+    input[type="password"],
+    textarea,
+    .article-form input,
+    .article-form textarea,
+    .edit-article-form input,
+    .edit-article-form textarea {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    /* Fix for button/input appearance on iOS */
+    input, textarea, button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        -webkit-border-radius: 10px; /* Ensure radius is applied */
+    }
+
+    /* --- Articles Section --- */
+    .articles-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .article-card {
+        padding: 15px;
+    }
+    .concept-suggestions {
+        padding: 15px;
+        margin: 15px 0;
+    }
+    .suggestion-tags {
+        gap: 8px;
+    }
+    .tag {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    /* --- Suggestions Component --- */
+    .suggestions-container {
+        min-height: calc(100vh - 200px);
+        height: auto;
+    }
+    .cards-wrapper {
+        height: 300px; /* Smaller height on mobile */
+    }
+    .suggestion-input-area {
+        margin-top: 15px;
+        padding: 15px;
+    }
+
+    /* --- Modal --- */
+    .modal-content {
+        padding: 20px;
+        margin: 10px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    /* --- CONFESSION GAME: MOBILE-SPECIFIC OVERRIDES --- */
+
+    /* Main section adjustments */
     #confessionSection {
         height: auto !important;
         min-height: calc(100vh - 40px) !important;
-        max-width: 100% !important;
         padding: 15px !important;
-        padding-top: 60px !important; /* Add space for fixed buttons */
+        padding-top: 60px !important; /* Space for fixed buttons */
     }
     
-    #confessionSection > h2 {
-        margin-top: 0 !important;
-    }
-    
+    /* Main layout flexbox override */
     #confessionSection > div[style*="flex: 1"] {
         flex-direction: column !important;
         gap: 20px !important;
         height: auto !important;
     }
     
-    /* Slider section on mobile */
-    #confessionSection div[style*="width: 150px"] {
-        width: 100% !important;
-        padding: 15px !important;
-        order: 2;
-    }
-    
-    /* Main content area on mobile */
+    /* Main content area order */
     #confessionSection div[style*="flex: 1"][style*="flex-direction: column"] {
         order: 1;
         width: 100% !important;
     }
     
-    /* Hide vertical slider on mobile, use horizontal */
-    #probabilitySlider {
-        transform: none !important;
-        width: 100% !important;
-        height: 40px !important;
-        -webkit-appearance: none;
-    }
-    
-    /* Probability value display */
-    #probabilityValue {
-        font-size: 28px !important;
-        margin: 10px 0 !important;
-    }
-    
-    /* Result message area */
-    #resultMessage {
-        margin: 10px !important;
-        max-width: 100% !important;
-    }
-    
-    /* Suggestions area */
-    #confessionSection div[style*="background: rgba(102, 126, 234, 0.05)"] {
-        padding: 10px !important;
-        margin-bottom: 15px !important;
-    }
-    
-    /* Confession starter buttons */
-    #confessionSection button[style*="font-size: 14px"] {
-        font-size: 12px !important;
-        padding: 6px 12px !important;
-        margin: 3px !important;
-    }
-    
-    /* Input and shoot button container */
-    #confessionSection > div > div > div:last-child {
-        flex-direction: column !important;
-        gap: 10px !important;
-    }
-    /* Add this to your styles.css file in the Mobile Responsive Styles section */
-
-/* Mobile Slider Fix - Add after line 512 in your existing mobile styles */
-@media (max-width: 768px) {
-    /* Horizontal slider container on mobile */
-    #confessionSection div[style*="position: relative; height: 300px"] {
-        height: 60px !important;
-        width: 100% !important;
-        position: relative !important;
-    }
-    
-    /* Horizontal track for mobile */
-    #confessionSection div[style*="position: absolute; width: 12px; height: 100%"] {
-        width: 100% !important;
-        height: 12px !important;
-        background: linear-gradient(to right, #4ecdc4, #667eea, #ff6b6b) !important;
-    }
-    
-    /* Reset slider rotation and size for mobile */
-    #probabilitySlider {
-        transform: none !important;
-        width: 100% !important;
-        height: 60px !important;
-        position: relative !important;
-        -webkit-appearance: none;
-        background: transparent;
-        margin: 0 !important;
-    }
-    
-    /* Slider track for mobile */
-    #probabilitySlider::-webkit-slider-track {
-        width: 100%;
-        height: 12px;
-        background: transparent;
-        cursor: pointer;
-    }
-    
-    #probabilitySlider::-moz-range-track {
-        width: 100%;
-        height: 12px;
-        background: transparent;
-        cursor: pointer;
-    }
-    
-    /* Slider thumb remains the same */
-    #probabilitySlider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        width: 40px;
-        height: 40px;
-        background: white;
-        border: 3px solid #667eea;
-        border-radius: 50%;
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-        margin-top: -14px; /* Center the thumb on the track */
-    }
-    
-    #probabilitySlider::-moz-range-thumb {
-        width: 40px;
-        height: 40px;
-        background: white;
-        border: 3px solid #667eea;
-        border-radius: 50%;
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-        border: 3px solid #667eea;
-        margin-top: -14px; /* Center the thumb on the track */
-    }
-    
-    /* Container for slider section on mobile */
-    #confessionSection div[style*="width: 150px"] {
-        width: 100% !important;
-        padding: 15px !important;
-        order: 2;
-        background: rgba(102, 126, 234, 0.1);
-        border-radius: 15px;
-        margin-top: 10px;
-    }
-    
-    /* Ensure proper spacing */
-    #confessionSection div[style*="width: 150px"] > label {
-        margin-bottom: 10px !important;
-        display: block;
-        text-align: center;
-    }
-    
-    #confessionSection div[style*="width: 150px"] > p {
-        margin-top: 10px !important;
-        font-size: 11px !important;
-        line-height: 1.4 !important;
-    }
-}
+    /* Input and button container */
     #confessionInput {
         width: 100% !important;
         font-size: 16px !important;
     }
-    
     #spinButton {
         width: 100% !important;
         padding: 15px !important;
         font-size: 16px !important;
     }
-    
-    /* History button */
+    #confessionSection > div > div > div:last-child {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    /* Fixed position buttons */
+    .back-button#confession-back-button {
+        position: fixed !important;
+        top: 10px !important;
+        left: 10px !important;
+        margin: 0 !important;
+        z-index: 100;
+    }
+
     button[onclick="toggleConfessionHistory()"] {
         position: fixed !important;
         top: 10px !important;
@@ -964,70 +889,59 @@ button:hover {
         font-size: 12px !important;
         z-index: 100;
     }
-    
-    /* Back button */
-    .back-button {
-        position: static !important;
-        margin-bottom: 15px !important;
-        padding: 8px 15px !important;
-        font-size: 12px !important;
-        width: auto !important;
-        display: inline-block !important;
+
+    /* --- SLIDER: Mobile Horizontal Style --- */
+    /* Container for the entire slider section */
+    #confessionSection div[style*="width: 150px"] {
+        width: 100% !important;
+        padding: 15px !important;
+        order: 2; /* Move below the confession input */
+        background: rgba(102, 126, 234, 0.1);
+        border-radius: 15px;
+        margin-top: 10px;
+    }
+
+    /* Label and text adjustments */
+    #confessionSection div[style*="width: 150px"] > label {
+        margin-bottom: 10px !important;
+        display: block;
+        text-align: center;
+    }
+    #confessionSection div[style*="width: 150px"] > p {
+        margin-top: 10px !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
     }
     
-    /* Special positioning for confession game back button */
-    #confessionSection .back-button {
-        position: fixed !important;
-        top: 10px !important;
-        left: 10px !important;
-        margin: 0 !important;
-        z-index: 100;
+    /* Slider value display */
+    #probabilityValue {
+        font-size: 28px !important;
+        margin: 10px 0 !important;
     }
     
-    /* Articles mobile */
-    .articles-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .article-card {
-        padding: 15px;
-    }
-    
-    .concept-suggestions {
-        padding: 15px;
-        margin: 15px 0;
-    }
-    
-    .suggestion-tags {
-        gap: 8px;
-    }
-    
-    .tag {
-        padding: 6px 12px;
-        font-size: 14px;
-    }
-    
-    /* Forms on mobile */
-    .article-form input, 
-    .article-form textarea,
-    .edit-article-form input,
-    .edit-article-form textarea {
-        padding: 12px;
-        font-size: 16px;
-    }
-    
-    /* Modal on mobile */
-    .modal-content {
-        padding: 20px;
-        margin: 10px;
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-    
-    /* Fix for iOS Safari */
-    input, textarea, button {
+    /* Slider element itself */
+    #probabilitySlider {
+        transform: none !important; /* Remove vertical rotation */
+        width: 100% !important;
+        height: 60px !important; /* Taller touch area */
         -webkit-appearance: none;
-        -webkit-border-radius: 10px;
+        background: transparent;
+        margin: 0 !important;
+    }
+
+    /* Slider track for WebKit & Mozilla */
+    #probabilitySlider::-webkit-slider-runnable-track,
+    #probabilitySlider::-moz-range-track {
+        width: 100%;
+        height: 12px;
+        background: linear-gradient(to right, #4ecdc4, #667eea, #ff6b6b);
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    /* Slider thumb (handle) for WebKit & Mozilla */
+    #probabilitySlider::-webkit-slider-thumb,
+    #probabilitySlider::-moz-range-thumb {
+        margin-top: -14px; /* Vertically center thumb on the track */
     }
 }
