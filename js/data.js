@@ -3,6 +3,7 @@ let articles = [];
 let currentConfession = '';
 let probability = 30; // Default to 30% instead of 50%
 let confessionHistory = []; // Store confession history
+let pointsAccumulated = 0; // Points accumulated from confessions
 
 // Sample confessions
 const confessions = [

@@ -22,12 +22,11 @@ function showConfessionGame() {
 // Fixed showGrievanceGame function to add to navigation.js
 
 function showGrievanceGame() {
-    console.log('Showing grievance game...');
     
     // Hide all cards first
     document.querySelectorAll('.card').forEach(card => {
         card.classList.add('hidden');
-        card.style.display = 'none'; // Ensure they're truly hidden
+        
     });
     
     // Show grievance section
@@ -47,5 +46,4 @@ function showGrievanceGame() {
         form.reset();
     }
     
-    console.log('Grievance section should now be visible');
 }

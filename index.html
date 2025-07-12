@@ -172,56 +172,55 @@
         <!-- Find this section around line 144 in your index.html and replace it with: -->
 
         <div id="grievanceSection" class="card hidden" style="max-width: 600px;">
-            <button class="back-button" onclick="showMainMenu()">← Back to Main Menu</button>
+            <button class="back-button" onclick="showMainMenu()" style="align-self: flex-start;">← Back to Main Menu</button>
 
-            <h2 style="text-align: center; margin-bottom: 30px;">Submit a Grievance 🌹</h2>
+            <h2 style="text-align: center; margin-bottom: 30px;">How did I upset you :(</h2>
 
-        <form id="grievanceForm">
-            <div style="display: flex; flex-direction: column; gap: 15px;">
-                <label for="grievanceTitle" class="sr-only">Title</label>
-                
+            <form id="grievanceForm" style="width: 100%; display: flex; flex-direction: column; padding: 20px; position: relative; background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    
+                    <label for="grievanceDetails" class="sr-only">What's bothering you?</label>
+                    <textarea id="grievanceDetails" name="details" placeholder="What's bothering you?" rows="6" required
+                            style="width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; resize: vertical;"></textarea>
 
-                <label for="grievanceDetails" class="sr-only">What's bothering you?</label>
-                <textarea id="grievanceDetails" name="details" placeholder="What's bothering you?" rows="6" required
-                        style="width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; resize: vertical;"></textarea>
-
-                <div class="field-group" style="display: flex; flex-direction: column; gap: 5px;">
-                    <label for="grievanceMood" style="font-weight: bold; color: #667eea;">How upset are you?:</label>
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <input type="range" id="grievanceMood" name="mood" min="1" max="10" value="5"
-                               oninput="document.getElementById('moodValue').textContent = this.value"
-                               style="flex: 1; height: 15px; accent-color: #667eea; border-radius: 10px;">
-                        <span id="moodValue" style="font-size: 18px; font-weight: bold; color: #667eea; min-width: 30px; text-align: center;">5</span>
+                    <div class="field-group" style="display: flex; flex-direction: column; gap: 5px;">
+                        <label for="grievanceSeverity" style="font-weight: bold; color: #667eea;">How upset are you?:</label>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <input type="range" id="grievanceSeverity" name="mood" min="1" max="10" value="5"
+                                oninput="document.getElementById('moodValue').textContent = this.value"
+                                style="flex: 1; height: 15px; accent-color: #667eea; border-radius: 10px;">
+                            <span id="moodValue" style="font-size: 18px; font-weight: bold; color: #667eea; min-width: 30px; text-align: center;">5</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                            <span style="font-size: 16px;">بسيطة بس صحصح</span>
+                            <span style="font-size: 16px;">حلعن ربك</span>
+                        </div>
                     </div>
-                    <div style="display: flex; justify-content: space-between; margin-top: 5px;">
-                        <span style="font-size: 16px;">بسيطة بس صحصح</span>
-                        <span style="font-size: 16px;">حلعن ربك</span>
-                    </div>
+
+                    <button type="submit" 
+                            style="background: linear-gradient(45deg, #d44742, #c9412c); 
+                                color: white; 
+                                border: none; 
+                                padding: 15px 30px; 
+                                border-radius: 10px; 
+                                font-size: 18px; 
+                                font-weight: bold;
+                                cursor: pointer; 
+                                margin-top: 20px;
+                                transition: transform 0.3s, box-shadow 0.3s;">
+                        Send
+                    </button>
                 </div>
-
-
-                <button type="submit" 
-                        style="background: linear-gradient(45deg, #d44742, #c9412c); 
-                            color: white; 
-                            border: none; 
-                            padding: 15px 30px; 
-                            border-radius: 10px; 
-                            font-size: 18px; 
-                            font-weight: bold;
-                            cursor: pointer; 
-                            margin-top: 20px;
-                            transition: transform 0.3s, box-shadow 0.3s;">
-                    Send
-                </button>
+            </form>
+            
+            <div id="grievanceHistory" style="margin-top: 30px; padding: 15px; background: rgba(102, 126, 234, 0.05); border-radius: 15px;">
+                <h3 style="color: #667eea;">Recent Submissions</h3>
+                <div id="grievanceList"></div>
             </div>
-        </form>
-        
-        <!-- Optional: Show submitted grievances -->
-        <div id="grievanceHistory" style="margin-top: 30px; display: none;">
-            <h3 style="color: #667eea;">Recent Submissions</h3>
-            <div id="grievanceList"></div>
         </div>
-    </div>
+            
+
+        </div>
                 
         
         
