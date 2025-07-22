@@ -4,28 +4,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>silly gift :3</title>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./shared/css/style.css">
+    <link rel="stylesheet" href="./landing/style.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Content will be dynamically rendered here -->
+    <!-- Main Application Container -->
+    <div id="appContainer" class="container">
+        
+        <!-- ===================================
+             VIEW: LOGIN SCREEN
+             =================================== -->
+        <section id="loginView" class="view active">
+            <div class="card" id="loginCard">
+                <h1>Enjoy !</h1>
+                <div class="login-form">
+                    <input type="password" id="passwordInput" placeholder="Enter our secret password..." />
+                    <button id="loginButton" data-action="login">Our Secret Password</button>
+                </div>
+                <p class="welcome-message">I really hope you like it ! and more "games" to come! ✨</p>
+            </div>
+        </section>
+
+        <!-- ===================================
+             VIEW: MAIN MENU
+             =================================== -->
+        <section id="menuView" class="view hidden">
+            <div class="card" id="mainMenuCard">
+                <h1>HAVE FUNNNNN</h1>
+                <div class="nav-buttons" id="navigationButtons">
+                    <button data-action="navigate" data-target="articles">📝 Our Article Collection</button>
+                    <button data-action="navigate" data-target="confessions">🎲 Confession Roulette</button>
+                    <button data-action="navigate" data-target="suggestions">📬 Suggestions Box</button>
+                    <button data-action="navigate" data-target="grievances">📋 Grievance Tracker</button>
+                </div>
+                
+                <!-- Settings Section -->
+                <div class="settings-area">
+                    <button id="settingsToggle" 
+                            class="settings-toggle-btn"
+                            data-action="toggle-settings"
+                            aria-label="Open Settings">
+                        <span class="settings-icon">⚙️</span>
+                    </button>
+                    
+                    <!-- Settings Dropdown -->
+                    <div id="settingsDropdown" class="settings-dropdown hidden">
+                        <button data-action="test-connection" class="settings-item test-connection">
+                            🔧 Test NAS Connection
+                        </button>
+                        <button data-action="show-data-info" class="settings-item data-info">
+                            📊 Data Info
+                        </button>
+                        <hr class="settings-divider">
+                        
+                        <!-- User Switcher -->
+                        <div class="user-switcher-container">
+                            <span class="user-label">User:</span>
+                            <div class="user-switcher">
+                                <button id="userSwitchButton" 
+                                        class="user-switch-btn" 
+                                        data-action="toggle-user"
+                                        data-current-user="Saleen">
+                                    <div id="switchSlider" class="switch-slider"></div>
+                                    <span id="userName" class="user-name">Saleen</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================
+             GAME CONTENT AREA
+             Games will populate this container
+             =================================== -->
+        <section id="gameView" class="view hidden">
+            <div id="gameContent">
+                <!-- Game modules will populate this area -->
+            </div>
+        </section>
     </div>
 
-    <!-- Core modules first -->
-    <script src="./js/modules/state.js"></script>
-    <script src="./js/modules/utils.js"></script>
-    <script src="./js/modules/storage.js"></script>
+    <!-- ===================================
+         GLOBAL COMPONENTS
+         =================================== -->
     
-    <!-- Feature modules (order matters - auth and navigation need to be before articles/confessions) -->
-    <script src="./js/modules/auth.js"></script>
-    <script src="./js/modules/navigation.js"></script>
-    <script src="./js/modules/articles.js"></script>
-    <script src="./js/modules/confessions.js"></script>
-    <script src="./js/modules/suggestions.js"></script>
-    <script src="./js/modules/grievances.js"></script>
-    <!-- Main app initialization last -->
-    <script src="./js/app.js"></script>
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="notification-container"></div>
 
+    <!-- Modal Container -->
+    <div id="modalContainer" class="modal-container"></div>
 
+    <!-- ===================================
+         TEMPLATES
+         =================================== -->
+    
+    <!-- Notification Template -->
+    <template id="notificationTemplate">
+        <div class="notification">
+            <span class="notification-message"></span>
+        </div>
+    </template>
+
+    <!-- Modal Template -->
+    <template id="modalTemplate">
+        <div class="modal-overlay">
+            <div class="modal-content">
+                <h3 class="modal-title"></h3>
+                <input type="text" class="modal-input" />
+                <div class="modal-buttons">
+                    <button class="btn-cancel" data-action="modal-cancel">Cancel</button>
+                    <button class="btn-confirm" data-action="modal-confirm">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- ===================================
+         SCRIPT LOADING - DEPENDENCY ORDER
+         =================================== -->
+    
+    <!-- Core modules first (no dependencies) -->
+    <script src="./shared/js/management/state.js"></script>
+    <script src="./shared/components/utils.js"></script>
+    
+    <!-- Storage module (depends on Utils and AppState) -->
+    <script src="./shared/js/management/storage.js"></script>
+    
+    <!-- Auth module (depends on Utils) -->
+    <script src="./shared/js/management/auth.js"></script>
+    
+    <!-- Navigation module (depends on Utils and potentially Auth) -->
+    <script src="./shared/components/navigation.js"></script>
+    
+    <!-- Main app initialization last (depends on all above modules) -->
+    <script src="./landing/script.js"></script>
 </body>
 </html>

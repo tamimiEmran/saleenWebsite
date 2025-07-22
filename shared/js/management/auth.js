@@ -1,46 +1,139 @@
-// js/modules/auth.js
+// shared/js/management/auth.js - Refactored for static HTML
 const Auth = (function() {
     const PASSWORD = 'saleen';
+    let isInitialized = false;
     
-    function showLogin() {
-        const container = document.querySelector('.container');
-        container.innerHTML = `
-            <div class="card" id="loginPage">
-                <h1>Enjoy ! </h1>
-                <div class="login-form">
-                    <input type="password" id="passwordInput" placeholder="Enter our secret password..." />
-                    <button onclick="Auth.login()">Our Secret Password</button>
-                </div>
-                <p style="color: #666; font-style: italic;">I really hope you like it ! and more "games" to come! ✨</p>
-            </div>
-        `;
+    // Initialize auth module - called once when app starts
+    function init() {
+        if (isInitialized) {
+            console.warn('Auth module already initialized');
+            return;
+        }
         
-        // Allow Enter key for login
-        const passwordInput = document.getElementById('passwordInput');
-        passwordInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                Auth.login();
-            }
-        });
+        console.log('🔐 Initializing Auth module...');
         
-        passwordInput.focus();
+        // Setup any auth-specific event listeners if needed
+        setupAuthEventListeners();
+        
+        isInitialized = true;
+        console.log('✅ Auth module initialized');
     }
     
+    function setupAuthEventListeners() {
+        // Any auth-specific event setup can go here
+        // Most events are now handled by app.js event delegation
+        
+        // Example: Auto-focus password input when login view is shown
+        const passwordInput = document.getElementById('passwordInput');
+        if (passwordInput) {
+            // Focus when login view becomes active
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        const loginView = document.getElementById('loginView');
+                        if (loginView && loginView.classList.contains('active')) {
+                            setTimeout(() => passwordInput.focus(), 100);
+                        }
+                    }
+                });
+            });
+            
+            const loginView = document.getElementById('loginView');
+            if (loginView) {
+                observer.observe(loginView, { attributes: true });
+            }
+        }
+    }
+    
+    // Main login function - called by app.js event delegation
     function login() {
-        const password = document.getElementById('passwordInput').value;
+        if (!isInitialized) {
+            console.error('❌ Auth module not initialized');
+            Utils.notify('Authentication system not ready', 'error');
+            return false;
+        }
+        
+        const passwordInput = document.getElementById('passwordInput');
+        
+        if (!passwordInput) {
+            console.error('❌ Password input not found');
+            Utils.notify('Login form not found', 'error');
+            return false;
+        }
+        
+        const password = passwordInput.value.trim();
+        
+        if (!password) {
+            Utils.notify('Please enter a password', 'warning');
+            passwordInput.focus();
+            return false;
+        }
+        
         if (password === PASSWORD) {
-            Navigation.show('menu');
+            // Clear password field
+            passwordInput.value = '';
+            
+            // Success feedback
             Utils.notify('Welcome! 💕', 'success');
+            
+            console.log('✅ Login successful');
+            return true;
         } else {
+            // Clear password field
+            passwordInput.value = '';
+            
+            // Error feedback
             Utils.notify('bad giiirrlll >:< ', 'error');
-            document.getElementById('passwordInput').value = '';
-            document.getElementById('passwordInput').focus();
+            
+            // Refocus for retry
+            setTimeout(() => passwordInput.focus(), 100);
+            
+            console.log('❌ Login failed - incorrect password');
+            return false;
+        }
+    }
+    
+    // Check if user is currently authenticated
+    function isAuthenticated() {
+        // In this simple app, we consider user authenticated if they're not on login view
+        const loginView = document.getElementById('loginView');
+        return loginView ? !loginView.classList.contains('active') : false;
+    }
+    
+    // Logout function
+    function logout() {
+        if (confirm('Are you sure you want to logout?')) {
+            console.log('🔓 User logged out');
+            Utils.notify('Logged out successfully', 'info');
+            return true;
+        }
+        return false;
+    }
+    
+    // Get current authentication state
+    function getAuthState() {
+        return {
+            isAuthenticated: isAuthenticated(),
+            initialized: isInitialized
+        };
+    }
+    
+    // Prepare login view (called when showing login)
+    function prepareLoginView() {
+        const passwordInput = document.getElementById('passwordInput');
+        if (passwordInput) {
+            passwordInput.value = '';
+            setTimeout(() => passwordInput.focus(), 100);
         }
     }
     
     // Public API
     return {
-        showLogin,
-        login
+        init,           // Initialize the auth module
+        login,          // Handle login attempt
+        logout,         // Handle logout
+        isAuthenticated,// Check auth status
+        getAuthState,   // Get full auth state
+        prepareLoginView // Prepare login UI
     };
 })();

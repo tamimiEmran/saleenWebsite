@@ -1,0 +1,49 @@
+        <!-- ===================================
+             VIEW: MAIN MENU
+             =================================== -->
+<section id="menuView" class="view hidden">
+    <div class="card" id="mainMenuCard">
+        <h1>HAVE FUNNNNN</h1>
+        <div class="nav-buttons" id="navigationButtons">
+            <button data-action="navigate" data-target="articles">📝 Our Article Collection</button>
+            <button data-action="navigate" data-target="confessions">🎲 Confession Roulette</button>
+            <button data-action="navigate" data-target="suggestions">📬 Suggestions Box</button>
+            <button data-action="navigate" data-target="grievances">📋 Grievance Tracker</button>
+        </div>
+        
+        <!-- Settings Section -->
+        <div class="settings-area">
+            <button id="settingsToggle" 
+                    class="settings-toggle-btn"
+                    data-action="toggle-settings"
+                    aria-label="Open Settings">
+                <span class="settings-icon">⚙️</span>
+            </button>
+            
+            <!-- Settings Dropdown -->
+            <div id="settingsDropdown" class="settings-dropdown hidden">
+                <button data-action="test-connection" class="settings-item test-connection">
+                    🔧 Test NAS Connection
+                </button>
+                <button data-action="show-data-info" class="settings-item data-info">
+                    📊 Data Info
+                </button>
+                <hr class="settings-divider">
+                
+                <!-- User Switcher -->
+                <div class="user-switcher-container">
+                    <span class="user-label">User:</span>
+                    <div class="user-switcher">
+                        <button id="userSwitchButton" 
+                                class="user-switch-btn" 
+                                data-action="toggle-user"
+                                data-current-user="Saleen">
+                            <div id="switchSlider" class="switch-slider"></div>
+                            <span id="userName" class="user-name">Saleen</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
