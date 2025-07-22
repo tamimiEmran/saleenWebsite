@@ -1,0 +1,112 @@
+/* ===================================================================
+   ARTICLES COMPONENT
+   =================================================================== */
+
+#articlesSection { padding: 0 15px; }
+
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.article-card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.article-card-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.article-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.article-header {
+    margin-bottom: 20px;
+}
+
+.article-content {
+    text-align: left;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.article-actions {
+    margin-top: 20px;
+}
+
+/* --- Concept Suggestions --- */
+.concept-suggestions {
+    margin-bottom: 20px;
+}
+
+.suggestion-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.tag {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.tag.selected {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.selected-concepts {
+    margin-top: 10px;
+}
+
+.no-articles-msg {
+    text-align: center;
+    color: #666;
+}
+
+.concept-buttons {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.add-concept-btn {
+    background: linear-gradient(45deg, #4ecdc4, #44a08d);
+}
+
+.use-selected-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+}
+
+.edit-article-btn {
+    background: linear-gradient(45deg, #ffecd2, #fcb69f);
+}
+
+.cancel-btn {
+    background: #6c757d;
+}
+
+@media (max-width: 768px) {
+    #articlesSection { padding: 0; }
+    .article-card { border-radius: 10px; padding: 15px; }
+}
