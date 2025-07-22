@@ -7,7 +7,7 @@ const Confessions = (function() {
         const container = document.querySelector('.container');
         container.innerHTML = `
             <div class="card" id="confessionSection" style="max-width: 800px; height: 90vh; display: flex; flex-direction: column; padding: 20px; position: relative;">
-                <button class="back-button" onclick="Navigation.show('menu')">← Back to Main Menu</button>
+                <button class="back-button" onclick="App.showMainMenu()">← Back to Main Menu</button>
                 
                 <!-- History Button in top right -->
                 <button onclick="Confessions.showHistory()" style="
