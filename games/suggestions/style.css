@@ -1,0 +1,92 @@
+/* ===================================================================
+   SUGGESTIONS COMPONENT (Desktop First)
+   =================================================================== */
+
+#suggestionsSection { padding: 0; }
+#suggestionsSection > h2, #suggestionsSection > .back-button { padding: 0 15px; }
+
+.suggestions-container { display: flex; flex-direction: column; gap: 20px; min-height: 600px; }
+.suggestion-tabs { display: flex; justify-content: center; gap: 10px; border-bottom: 1px solid #ddd; padding-bottom: 15px; }
+.tab-btn { background: #f0f0f0; color: #555; font-weight: bold; padding: 10px 20px; margin: 0; border: 2px solid transparent; }
+.tab-btn.active { background: #e8eaf6; color: #667eea; border-color: #667eea; transform: translateY(-2px); }
+
+.cards-wrapper { display: flex; height: 400px; width: 300%; transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+.suggestion-card { flex: 0 0 33.333%; background: #fff; border-radius: 15px; padding: 20px; margin: 0 10px; display: flex; flex-direction: column; height: 100%; }
+
+.filter-row { display: flex; align-items: center; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
+.filter-btn { background: white; border: 1px solid #ddd; padding: 6px; font-size: 16px; border-radius: 6px; width: 36px; height: 36px; margin: 0; }
+.filter-btn.active { background: #667eea; border-color: #667eea; }
+.clear-filter-btn { background: #6c757d; color: white; padding: 5px 12px; font-size: 12px; border-radius: 5px; margin-left: auto; }
+
+.suggestions-list { flex: 1; overflow-y: auto; padding-right: 10px; }
+.empty-message { text-align: center; color: #999; margin-top: 50px; }
+.suggestion-item { display: flex; align-items: center; gap: 15px; padding: 12px; background: #f8f9fa; border-radius: 10px; margin-bottom: 10px; }
+.suggestion-item.completed { opacity: 0.6; }
+.suggestion-item.completed .suggestion-text, .suggestion-item.completed .suggestion-link { text-decoration: line-through; }
+.suggestion-item input[type="checkbox"] { width: 20px; height: 20px; }
+.suggestion-item label { display: flex; align-items: center; gap: 10px; flex: 1; }
+.suggestion-icon { font-size: 20px; }
+.suggestion-link { color: #667eea; text-decoration: none; }
+.suggestion-date { font-size: 12px; color: #999; margin-left: auto; }
+
+.suggestion-input-area { background: #f8f9fa; border-radius: 15px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+.input-row { display: flex; gap: 10px; }
+.input-row input, .input-row button { margin: 0; }
+
+.suggestion-options { display: flex; justify-content: space-between; align-items: center; }
+.icon-selector { display: flex; gap: 10px; margin: 0; }
+.icon-btn { background: white; border: 2px solid #ddd; font-size: 24px; width: 45px; height: 45px; margin: 0; }
+.icon-btn.selected { border-color: #667eea; transform: translateY(-2px); }
+
+.for-us-toggle-btn {
+    background: #f0f0f0;
+    color: #555;
+    border: 2px solid #ddd;
+    padding: 10px 15px;
+    font-weight: bold;
+    margin: 0;
+}
+.for-us-toggle-btn.active {
+    background: linear-gradient(45deg, #ff9a9e, #fecfef);
+    color: #a33b6f;
+    border-color: #ff9a9e;
+    box-shadow: 0 2px 8px rgba(255, 154, 158, 0.4);
+    transform: translateY(-1px);
+}
+
+/* ===================================================================
+   MOBILE RESPONSIVE STYLES (max-width: 768px)
+   =================================================================== */
+@media (max-width: 768px) {
+    .suggestions-container { flex: 1; display: flex; flex-direction: column; overflow: hidden; gap: 0; }
+    .suggestion-tabs { border-bottom: 1px solid #eee; flex-shrink: 0; padding: 0; }
+    .tab-btn { flex: 1; padding: 15px 5px; font-size: 14px; background: none; border-bottom: 3px solid transparent; border-radius: 0; }
+    .tab-btn.active { color: #667eea; border-bottom-color: #667eea; transform: none; box-shadow: none; }
+
+    .cards-wrapper { flex: 1; height: 100%; }
+    .suggestion-card { padding: 10px 0; margin: 0; box-shadow: none; border-radius: 0; }
+    .card-header { padding: 0 10px; }
+    .suggestions-list { flex: 1; overflow-y: auto; padding: 0 15px 10px 15px; }
+
+    /* --- MOBILE INPUT AREA --- */
+    .suggestion-input-area {
+        padding: 10px;
+        border-top: 1px solid #ddd;
+        border-radius: 0;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .input-row { gap: 10px; align-items: center; }
+    .input-row input { flex: 1; background: white; border: 1px solid #ccc; padding: 12px; }
+    .input-row button { padding: 12px 20px; width: auto; }
+
+    .suggestion-options { justify-content: space-between; align-items: center; }
+    .icon-selector { flex-wrap: wrap; }
+    .icon-btn { width: 38px; height: 38px; font-size: 20px; border-radius: 8px; }
+    .icon-btn.selected { transform: none; }
+
+    .for-us-toggle-btn { padding: 8px 12px; font-size: 14px; }
+    .for-us-toggle-btn.active { transform: none; }
+}

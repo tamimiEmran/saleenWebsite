@@ -1,0 +1,173 @@
+.confession-section {
+    max-width: 800px;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    position: relative;
+}
+
+.history-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(45deg, #764ba2, #667eea);
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 10px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.history-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.confession-title { text-align: center; }
+
+.confession-layout {
+    flex: 1;
+    display: flex;
+    gap: 30px;
+    margin: 20px 0;
+    min-height: 0;
+}
+
+.probability-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 15px;
+    width: 150px;
+}
+
+.probability-label {
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.slider-container {
+    position: relative;
+    height: 300px;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider-track {
+    position: absolute;
+    width: 12px;
+    height: 100%;
+    background: linear-gradient(to top, #4ecdc4, #667eea, #ff6b6b);
+    border-radius: 6px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+}
+
+.probability-slider {
+    position: absolute;
+    width: 300px;
+    height: 40px;
+    -webkit-appearance: none;
+    background: transparent;
+    outline: none;
+    transform: rotate(-90deg);
+    transform-origin: center;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+}
+
+#probabilityValue {
+    font-size: 36px;
+    font-weight: bold;
+    color: #667eea;
+    margin-top: 20px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.probability-hint {
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.confession-input-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.result-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#resultMessage { margin: 20px; max-width: 500px; }
+
+.examples {
+    background: rgba(102, 126, 234, 0.05);
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+.examples p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.example-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+.example-buttons button {
+    font-size: 14px;
+    padding: 8px 16px;
+    background: white;
+    color: #667eea;
+    border: 1px solid #667eea;
+}
+
+.confession-input-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.confession-input {
+    flex: 1;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.spin-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#confessionHistoryModal .modal-content {
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+#confessionHistoryModal h3 {
+    color: #667eea;
+    margin-bottom: 20px;
+}
