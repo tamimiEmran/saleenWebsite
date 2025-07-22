@@ -1,0 +1,26 @@
+.severity-control { margin: 15px 0; }
+
+.severity-label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.severity-scale {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 18px;
+    color: #666;
+}
+
+#grievanceSeverity.severity-slider,
+.severity-slider {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #4caf50, #ff9800, #f44336, #9c27b0);
+    outline: none;
+}
+
+.grievance-history { margin-top: 30px; }

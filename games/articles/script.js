@@ -24,7 +24,7 @@ var Articles = (function() {
             
             <div id="articlesList" class="articles-grid">
                 ${articles.length ? articles.map(renderArticleCard).join('') : 
-                  '<p style="text-align: center; color: #666;">No articles yet. Start writing your first one! ✍️</p>'}
+                  '<p class="no-articles-msg">No articles yet. Start writing your first one! ✍️</p>'}
             </div>
         `;
     }
@@ -47,11 +47,11 @@ var Articles = (function() {
                    <span id="selectedList">${selected.length ? selected.join(', ') : 'None selected'}</span>
                 </p>
             </div>
-            <div style="margin-top: 15px;">
-                <button onclick="Articles.addNewConcept()" style="background: linear-gradient(45deg, #4ecdc4, #44a08d);">
+            <div class="concept-buttons">
+                <button onclick="Articles.addNewConcept()" class="add-concept-btn">
                     ➕ Add New Concept
                 </button>
-                <button onclick="Articles.useSelected()" style="background: linear-gradient(45deg, #ff6b6b, #ee5a6f);">
+                <button onclick="Articles.useSelected()" class="use-selected-btn">
                     ✍️ Write with Selected
                 </button>
             </div>
@@ -66,9 +66,9 @@ var Articles = (function() {
                 <p><strong>Date:</strong> ${article.date}</p>
                 ${article.lastEdited ? `<p><strong>Last Edited:</strong> ${article.lastEdited}</p>` : ''}
                 <p>${article.content.substring(0, 150)}${article.content.length > 150 ? '...' : ''}</p>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <div class="article-card-actions">
                     <button onclick="Articles.viewArticle(${article.id})">📖 Read Full Article</button>
-                    <button onclick="Articles.editArticle(${article.id})" style="background: linear-gradient(45deg, #ffecd2, #fcb69f);">✏️ Edit</button>
+                    <button onclick="Articles.editArticle(${article.id})" class="edit-article-btn">✏️ Edit</button>
                 </div>
             </div>
         `;
@@ -91,7 +91,7 @@ var Articles = (function() {
                        value="${article ? article.concept : selected.join(', ')}" />
                 <textarea id="articleContent" placeholder="Start writing your thoughts here...">${article ? article.content : ''}</textarea>
                 <button onclick="Articles.saveArticle(${article ? article.id : null})">💾 ${article ? 'Save Changes' : 'Save Article'}</button>
-                <button onclick="Articles.showList()" style="background: #6c757d;">Cancel</button>
+                <button onclick="Articles.showList()" class="cancel-btn">Cancel</button>
             </div>
         `;
         
