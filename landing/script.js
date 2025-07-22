@@ -58,33 +58,35 @@ const App = (function() {
         console.log('✅ App initialized successfully');
     }
 
+
     async function initializeCoreModules() {
         console.log('🔧 Initializing core modules...');
-        
-        // Check if required modules are available
-        const requiredModules = ['AppState', 'Utils', 'Storage', 'Auth'];
-        for (const moduleName of requiredModules) {
-            if (typeof window[moduleName] === 'undefined') {
-                throw new Error(`Required module ${moduleName} not loaded`);
-            }
+
+        // Verify core modules exist (these are defined using const, not on window)
+        const missing = [];
+        if (typeof AppState === 'undefined') missing.push('AppState');
+        if (typeof Utils === 'undefined') missing.push('Utils');
+        if (typeof Storage === 'undefined') missing.push('Storage');
+        if (typeof Auth === 'undefined') missing.push('Auth');
+
+        if (missing.length) {
+            throw new Error(`Required module(s) missing: ${missing.join(', ')}`);
         }
-        
+
         // Initialize modules in dependency order
         try {
-            // Auth module initialization
-            if (Auth && typeof Auth.init === 'function') {
+            if (typeof Auth.init === 'function') {
                 Auth.init();
             } else {
-                console.warn('⚠️ Auth module not available or missing init method');
+                console.warn('⚠️ Auth module missing init method');
             }
-            
+
             console.log('✅ Core modules initialized');
         } catch (error) {
             console.error('❌ Failed to initialize core modules:', error);
             throw error;
         }
     }
-
     function setupEventDelegation() {
         const appContainer = document.getElementById('appContainer');
         
