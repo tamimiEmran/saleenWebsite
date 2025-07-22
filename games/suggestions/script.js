@@ -1,5 +1,5 @@
 // js/modules/suggestions.js
-const Suggestions = (function() {
+var Suggestions = (function() {
     // --- MODULE STATE ---
     let currentCard = 0;
     let selectedIcon = 'link'; // Default icon

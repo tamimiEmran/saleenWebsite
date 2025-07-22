@@ -1,5 +1,5 @@
 // js/modules/articles.js
-const Articles = (function() {
+var Articles = (function() {
     let currentView = 'list';
     let currentArticle = null;
     
