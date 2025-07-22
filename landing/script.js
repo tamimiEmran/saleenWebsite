@@ -93,10 +93,13 @@ var App = (function() {
         
         // Handle all clicks through delegation
         appContainer.addEventListener('click', async (e) => {
-            const action = e.target.dataset.action;
-            const target = e.target.dataset.target;
-            
-            if (!action) return;
+            // Support clicks on child elements by finding the closest ancestor
+            // with a data-action attribute
+            const actionEl = e.target.closest('[data-action]');
+            if (!actionEl) return;
+
+            const action = actionEl.dataset.action;
+            const target = actionEl.dataset.target;
             
             switch (action) {
                 case 'login':
