@@ -1,0 +1,347 @@
+/* ===================================================================
+   LANDING PAGE SPECIFIC STYLES
+   =================================================================== */
+
+/* --- View Management --- */
+.view {
+    display: none;
+    width: 100%;
+}
+
+.view.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Login View Styles --- */
+#loginView .welcome-message {
+    color: #666;
+    font-style: italic;
+    margin-top: 15px;
+}
+
+/* --- Main Menu Specific Styles --- */
+#mainMenuCard {
+    position: relative;
+}
+
+/* --- Settings Area --- */
+.settings-area {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.settings-toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.settings-toggle-btn:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+.settings-toggle-btn:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+.settings-icon {
+    font-size: 24px;
+}
+
+/* --- Settings Dropdown --- */
+.settings-dropdown {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    padding: 10px;
+    min-width: 200px;
+    z-index: 100;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.2s, visibility 0.2s;
+}
+
+.settings-dropdown.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.settings-item {
+    background: #17a2b8;
+    font-size: 13px;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.settings-item:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.settings-item.data-info {
+    background: #28a745;
+}
+
+.settings-divider {
+    margin: 10px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+/* --- User Switcher --- */
+.user-switcher-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background: rgba(0,0,0,0.02);
+    border-radius: 8px;
+}
+
+.user-label {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.user-switch-btn {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 20px;
+    padding: 6px;
+    width: 100px;
+    height: 34px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.3s;
+    overflow: hidden;
+}
+
+.user-switch-btn:focus {
+    outline: 2px solid #333;
+    outline-offset: 2px;
+}
+
+.switch-slider {
+    background: white;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.user-name {
+    position: absolute;
+    left: 35px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    transition: left 0.3s ease;
+}
+
+/* --- User Switch States --- */
+.user-switch-btn[data-current-user="Emran"] {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+}
+
+.user-switch-btn[data-current-user="Emran"] .switch-slider {
+    transform: translateX(68px);
+}
+
+.user-switch-btn[data-current-user="Emran"] .user-name {
+    left: 8px;
+}
+
+/* --- Game Content Area --- */
+#gameView {
+    width: 100%;
+    min-height: 100vh;
+}
+
+#gameContent {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* --- Notification Styles --- */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.notification {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    max-width: 320px;
+}
+
+.notification.success {
+    background: #28a745;
+    color: white;
+}
+
+.notification.error {
+    background: #dc3545;
+    color: white;
+}
+
+.notification.info {
+    background: #17a2b8;
+    color: white;
+}
+
+.notification.warning {
+    background: #ffc107;
+    color: #333;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+/* --- Modal Styles --- */
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    pointer-events: none;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2001;
+    pointer-events: all;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-title {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.btn-cancel {
+    background: #6c757d;
+}
+
+.btn-confirm {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    .settings-area {
+        bottom: 15px;
+    }
+    
+    .settings-dropdown {
+        min-width: 180px;
+        bottom: 45px;
+    }
+    
+    .settings-item {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+    
+    .user-switch-btn {
+        width: 90px;
+        height: 30px;
+    }
+    
+    .switch-slider {
+        width: 22px;
+        height: 22px;
+        top: 3px;
+    }
+    
+    .user-switch-btn[data-current-user="Emran"] .switch-slider {
+        transform: translateX(58px);
+    }
+    
+    .user-name {
+        font-size: 11px;
+        left: 30px;
+    }
+    
+    .user-switch-btn[data-current-user="Emran"] .user-name {
+        left: 6px;
+    }
+    
+    .notification {
+        max-width: 280px;
+        font-size: 13px;
+    }
+}

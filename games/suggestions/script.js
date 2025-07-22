@@ -1,5 +1,5 @@
 // js/modules/suggestions.js
-const Suggestions = (function() {
+var Suggestions = (function() {
     // --- MODULE STATE ---
     let currentCard = 0;
     let selectedIcon = 'link'; // Default icon
@@ -21,54 +21,8 @@ const Suggestions = (function() {
      * This is the primary entry point called by other modules.
      */
     function show() {
-        const container = document.querySelector('.container');
-        // This HTML structure is designed for the new mobile and desktop CSS
-        container.innerHTML = `
-            <div class="card wide-card" id="suggestionsSection">
-                <button class="back-button" onclick="Navigation.show('menu')">← Back to Main Menu</button>
-                <h2>📬 Suggestions Box</h2>
-                
-                <div class="suggestions-container">
-                    <div class="suggestion-tabs">
-                        <button class="tab-btn" onclick="Suggestions.goToCard(0)">For Saleen</button>
-                        <button class="tab-btn" onclick="Suggestions.goToCard(1)">For Emran</button>
-                        <button class="tab-btn" onclick="Suggestions.goToCard(2)">For Us 💕</button>
-                    </div>
-
-                    <div class="cards-wrapper" id="cardsWrapper">
-                        ${renderCards()}
-                    </div>
-                    
-                    <div class="suggestion-input-area">
-                        <div class="suggestion-options">
-                            <div class="icon-selector">
-                                ${Object.entries(icons).map(([key, icon]) => `
-                                    <button class="icon-btn" data-icon="${key}" 
-                                            onclick="Suggestions.selectIcon('${key}')"
-                                            title="${icon.label}">
-                                        ${icon.emoji}
-                                    </button>
-                                `).join('')}
-                            </div>
-                            
-                            <!-- Unified toggle button for both web and mobile -->
-                            <button class="for-us-toggle-btn ${forUs ? 'active' : ''}" onclick="Suggestions.toggleForUs()">
-                                For Us 💕
-                            </button>
-                        </div>
-                        <div class="input-row">
-                            <input type="text" id="suggestionInput" 
-                                   placeholder="Add a movie, song, link..." 
-                                   oninput="Suggestions.handleInput()"
-                                   onkeypress="Suggestions.handleEnter(event)" />
-                            <button onclick="Suggestions.addSuggestion()" id="addBtn" disabled>Add</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        // Set initial state correctly after rendering
+        const wrapper = document.getElementById("cardsWrapper");
+        if(wrapper) wrapper.innerHTML = renderCards();
         selectIcon(selectedIcon);
         goToCard(currentCard);
     }
@@ -202,7 +156,7 @@ const Suggestions = (function() {
         const content = input.value.trim();
         if (!content) return;
         
-        const currentUser = Navigation.getCurrentUser();
+        const currentUser = App.getCurrentUser();
         const suggestion = {
             id: Date.now(), type: selectedIcon, content,
             isLink: isValidUrl(content), completed: false,

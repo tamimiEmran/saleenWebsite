@@ -1,0 +1,22 @@
+<div class="card wide-card" id="grievancesSection">
+    <button class="back-button" data-action="back-to-menu">← Back to Main Menu</button>
+    <h2>📋 How did I upset you? :( </h2>
+    <div class="grievance-form">
+        <textarea id="grievanceDetails" placeholder="فضفضيلي" rows="3"></textarea>
+        <div class="severity-control">
+            <label for="grievanceSeverity" class="severity-label">
+                How much did I fuck up?
+            </label>
+            <div class="severity-scale">
+                <span>بسيطة بس صحصح</span>
+                <span>حلعن ربكك</span>
+            </div>
+            <input type="range" id="grievanceSeverity" class="severity-slider" min="1" max="4" value="2" oninput="Grievances.updateSeverityLabel(this.value)">
+        </div>
+        <button onclick="Grievances.addGrievance()">Add Grievance</button>
+    </div>
+    <div id="grievanceHistory" class="grievance-history">
+        <h3>Current Grievances</h3>
+        <div id="grievanceList"></div>
+    </div>
+</div>

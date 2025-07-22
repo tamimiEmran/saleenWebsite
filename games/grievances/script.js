@@ -1,39 +1,8 @@
 // js/modules/grievances.js
-const Grievances = (function() {
+var Grievances = (function() {
     function show() {
-        const container = document.querySelector('.container');
-        container.innerHTML = `
-            <div class="card wide-card" id="grievancesSection">
-                <button class="back-button" onclick="Navigation.show('menu')">← Back to Main Menu</button>
-                <h2>📋 How did I upset you? :( </h2>
-                
-                <div class="grievance-form">
-                    
-                    <textarea id="grievanceDetails" placeholder="فضفضيلي" rows="3"></textarea>
-                    <div style="margin: 15px 0;">
-                        <label for="grievanceSeverity" style="display: block; margin-bottom: 10px; font-weight: bold;">
-                            How much did I fuck up? 
-                        </label>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 18px; color: #666;">
-                            <span>بسيطة بس صحصح</span>
-                            <span>حلعن ربكك</span>
-                        </div>
-                        <input type="range" id="grievanceSeverity" min="1" max="4" value="2" 
-                               oninput="Grievances.updateSeverityLabel(this.value)"
-                               style="width: 100%; height: 8px; border-radius: 5px; background: linear-gradient(to right, #4caf50, #ff9800, #f44336, #9c27b0); outline: none;">
-                    </div>
-                    <button onclick="Grievances.addGrievance()">Add Grievance</button>
-                </div>
-                
-                <div id="grievanceHistory" style="margin-top: 30px;">
-                    <h3>Current Grievances</h3>
-                    <div id="grievanceList">
-                        ${renderGrievances()}
-                    </div>
-                </div>
-            </div>
-        `;
-        
+        const list = document.getElementById("grievanceList");
+        if(list) list.innerHTML = renderGrievances();
         updateHistoryVisibility();
     }
     
