@@ -1,5 +1,5 @@
 // js/modules/grievances.js
-const Grievances = (function() {
+var Grievances = (function() {
     function show() {
         const container = document.querySelector('.container');
         container.innerHTML = `

@@ -1,5 +1,5 @@
 // js/modules/confessions.js
-const Confessions = (function() {
+var Confessions = (function() {
     let probability = 30;
     let currentConfession = '';
     
