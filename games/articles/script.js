@@ -7,7 +7,7 @@ const Articles = (function() {
         const container = document.querySelector('.container');
         container.innerHTML = `
             <div class="card wide-card" id="articlesSection">
-                <button class="back-button" onclick="Navigation.show('menu')">← Back to Main Menu</button>
+                <button class="back-button" onclick="App.showMainMenu()">← Back to Main Menu</button>
                 <div id="articlesContent"></div>
             </div>
         `;
