@@ -252,9 +252,23 @@ var App = (function() {
                 cleanupGame(currentGame);
             }
 
-            // Load game resources if not already loaded
+            const game = GAMES[gameName];
+
+            // Always reload the HTML to reset the game view
+            if (game.files.includes('index.html')) {
+                await loadGameHTML(game.path, gameName);
+            }
+
+            // Only load JS and CSS once
             if (!loadedGames.has(gameName)) {
-                await loadGameResources(gameName);
+                const promises = [];
+                if (game.files.includes('style.css')) {
+                    promises.push(loadGameCSS(game.path, gameName));
+                }
+                if (game.files.includes('script.js')) {
+                    promises.push(loadGameJS(game.path, gameName));
+                }
+                await Promise.all(promises);
                 loadedGames.add(gameName);
             }
 
@@ -274,27 +288,6 @@ var App = (function() {
         }
     }
 
-    async function loadGameResources(gameName) {
-        const game = GAMES[gameName];
-        const promises = [];
-
-        // Load HTML
-        if (game.files.includes('index.html')) {
-            promises.push(loadGameHTML(game.path, gameName));
-        }
-
-        // Load CSS
-        if (game.files.includes('style.css')) {
-            promises.push(loadGameCSS(game.path, gameName));
-        }
-
-        // Load JavaScript
-        if (game.files.includes('script.js')) {
-            promises.push(loadGameJS(game.path, gameName));
-        }
-
-        await Promise.all(promises);
-    }
 
     async function loadGameHTML(basePath, gameName) {
         try {
