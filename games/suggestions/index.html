@@ -1,0 +1,28 @@
+<div class="card wide-card" id="suggestionsSection">
+    <button class="back-button" data-action="back-to-menu">← Back to Main Menu</button>
+    <h2>📬 Suggestions Box</h2>
+    <div class="suggestions-container">
+        <div class="suggestion-tabs">
+            <button class="tab-btn" onclick="Suggestions.goToCard(0)">For Saleen</button>
+            <button class="tab-btn" onclick="Suggestions.goToCard(1)">For Emran</button>
+            <button class="tab-btn" onclick="Suggestions.goToCard(2)">For Us 💕</button>
+        </div>
+        <div class="cards-wrapper" id="cardsWrapper"></div>
+        <div class="suggestion-input-area">
+            <div class="suggestion-options">
+                <div class="icon-selector">
+                    <button class="icon-btn" data-icon="movie" onclick="Suggestions.selectIcon('movie')" title="Movie">🎬</button>
+                    <button class="icon-btn" data-icon="music" onclick="Suggestions.selectIcon('music')" title="Music">🎵</button>
+                    <button class="icon-btn" data-icon="youtube" onclick="Suggestions.selectIcon('youtube')" title="YouTube">📺</button>
+                    <button class="icon-btn" data-icon="book" onclick="Suggestions.selectIcon('book')" title="Book">📚</button>
+                    <button class="icon-btn" data-icon="link" onclick="Suggestions.selectIcon('link')" title="Link">🔗</button>
+                </div>
+                <button class="for-us-toggle-btn active" onclick="Suggestions.toggleForUs()">For Us 💕</button>
+            </div>
+            <div class="input-row">
+                <input type="text" id="suggestionInput" placeholder="Add a movie, song, link..." oninput="Suggestions.handleInput()" onkeypress="Suggestions.handleEnter(event)" />
+                <button onclick="Suggestions.addSuggestion()" id="addBtn" disabled>Add</button>
+            </div>
+        </div>
+    </div>
+</div>
