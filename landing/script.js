@@ -1,5 +1,6 @@
 // shared/js/app.js - Main Application Controller with Game Loading
-const App = (function() {
+// Expose App globally so inline event handlers can access it
+var App = (function() {
     let currentGame = null;
     let loadedGames = new Set();
     let gameModules = {};
