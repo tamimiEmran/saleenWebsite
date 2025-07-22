@@ -25,7 +25,7 @@ const Suggestions = (function() {
         // This HTML structure is designed for the new mobile and desktop CSS
         container.innerHTML = `
             <div class="card wide-card" id="suggestionsSection">
-                <button class="back-button" onclick="Navigation.show('menu')">← Back to Main Menu</button>
+                <button class="back-button" onclick="App.showMainMenu()">← Back to Main Menu</button>
                 <h2>📬 Suggestions Box</h2>
                 
                 <div class="suggestions-container">
@@ -202,7 +202,7 @@ const Suggestions = (function() {
         const content = input.value.trim();
         if (!content) return;
         
-        const currentUser = Navigation.getCurrentUser();
+        const currentUser = App.getCurrentUser();
         const suggestion = {
             id: Date.now(), type: selectedIcon, content,
             isLink: isValidUrl(content), completed: false,

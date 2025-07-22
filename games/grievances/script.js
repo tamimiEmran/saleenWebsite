@@ -4,7 +4,7 @@ const Grievances = (function() {
         const container = document.querySelector('.container');
         container.innerHTML = `
             <div class="card wide-card" id="grievancesSection">
-                <button class="back-button" onclick="Navigation.show('menu')">← Back to Main Menu</button>
+                <button class="back-button" onclick="App.showMainMenu()">← Back to Main Menu</button>
                 <h2>📋 How did I upset you? :( </h2>
                 
                 <div class="grievance-form">
