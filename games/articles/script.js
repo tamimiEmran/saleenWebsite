@@ -1,185 +1,158 @@
-// js/modules/articles.js
 var Articles = (function() {
     let currentView = 'list';
     let currentArticle = null;
     
-    function show() {
-        showList();
-    }
+    function show() { showList(); }
     
     function showList() {
         currentView = 'list';
-        document.getElementById('articlesListView').classList.remove('hidden');
-        document.getElementById('articleFormView').classList.add('hidden');
-        document.getElementById('singleArticleView').classList.add('hidden');
-
-        renderConceptSelector();
+        ['articlesListView'].forEach(id => document.getElementById(id).classList.remove('hidden'));
+        ['articleFormView', 'singleArticleView'].forEach(id => document.getElementById(id).classList.add('hidden'));
 
         const articles = AppState.articles.getAll();
         const listEl = document.getElementById('articlesList');
-        if (listEl) {
-            listEl.innerHTML = articles.length
-                ? articles.map(renderArticleCard).join('')
-                : '<p class="no-articles-msg">No articles yet. Start writing your first one! ✍️</p>';
-        }
-    }
-    
-    function renderConceptSelector() {
-        const concepts = AppState.concepts.getAll();
-        const selected = AppState.concepts.getSelected();
-
-        const tagsEl = document.getElementById('conceptTags');
-        if (tagsEl) {
-            tagsEl.innerHTML = concepts.map(c => `
-                <div class="tag ${selected.includes(c) ? 'selected' : ''}"
-                     onclick="Articles.toggleConcept('${c.replace(/'/g, "\\'")}')">${c}</div>
-            `).join('');
-        }
-
-        const selectedList = document.getElementById('selectedList');
-        if (selectedList) {
-            selectedList.textContent = selected.length ? selected.join(', ') : 'None selected';
-        }
+        listEl.innerHTML = articles.length 
+            ? articles.map(renderArticleCard).join('') 
+            : '<p class="no-articles-msg">No articles yet. Start by writing your first one! ✍️</p>';
     }
     
     function renderArticleCard(article) {
+        const preview = article.content.substring(0, 150) + (article.content.length > 150 ? '...' : '');
         return `
-            <div class="article-card">
+            <div class="article-card" onclick="Articles.viewArticle(${article.id})">
                 <h3>${article.title}</h3>
-                <p><strong>Concept:</strong> ${article.concept}</p>
-                <p><strong>Date:</strong> ${article.date}</p>
-                ${article.lastEdited ? `<p><strong>Last Edited:</strong> ${article.lastEdited}</p>` : ''}
-                <p>${article.content.substring(0, 150)}${article.content.length > 150 ? '...' : ''}</p>
+                <p><strong>Concept:</strong> ${article.concept || 'N/A'}</p>
+                <p class="content-preview">${preview}</p>
                 <div class="article-card-actions">
-                    <button onclick="Articles.viewArticle(${article.id})">📖 Read Full Article</button>
-                    <button onclick="Articles.editArticle(${article.id})" class="edit-article-btn">✏️ Edit</button>
+                    <button onclick="event.stopPropagation(); Articles.editArticle(${article.id})">✏️ Edit</button>
                 </div>
-            </div>
-        `;
+            </div>`;
     }
     
     function showForm(article = null) {
         currentView = 'form';
         currentArticle = article;
-        document.getElementById('articlesListView').classList.add('hidden');
-        document.getElementById('articleFormView').classList.remove('hidden');
-        document.getElementById('singleArticleView').classList.add('hidden');
-
-        const selected = AppState.concepts.getSelected();
-
+        ['articleFormView'].forEach(id => document.getElementById(id).classList.remove('hidden'));
+        ['articlesListView', 'singleArticleView'].forEach(id => document.getElementById(id).classList.add('hidden'));
+        
         document.getElementById('formTitle').textContent = article ? '✏️ Edit Article' : '✍️ Write New Article';
         document.getElementById('articleTitle').value = article ? article.title : '';
-        document.getElementById('articleConcept').value = article ? article.concept : selected.join(', ');
+        document.getElementById('articleConcept').value = article ? article.concept : '';
         document.getElementById('articleContent').value = article ? article.content : '';
+        
+        renderConceptHelper();
+        document.getElementById('articleTitle').focus();
     }
     
     function saveArticle() {
-        const title = document.getElementById('articleTitle').value;
-        const concept = document.getElementById('articleConcept').value;
-        const content = document.getElementById('articleContent').value;
+        const title = document.getElementById('articleTitle').value.trim();
+        const conceptInput = document.getElementById('articleConcept').value.trim();
+        const content = document.getElementById('articleContent').value.trim();
         
         if (!title || !content) {
-            Utils.notify('Please fill in at least the title and content!', 'warning');
+            Utils.notify('Please fill in both the title and content fields.', 'warning');
             return;
         }
+
+        // Auto-add new concepts from the input field to the main list
+        const conceptsInInput = conceptInput.split(',').map(c => c.trim()).filter(Boolean);
+        conceptsInInput.forEach(c => AppState.concepts.add(c));
         
         if (currentArticle) {
-            // Update existing
-            AppState.articles.update(currentArticle.id, { title, concept, content });
+            AppState.articles.update(currentArticle.id, { title, concept: conceptInput, content });
             Utils.notify('Article updated successfully! ✨', 'success');
         } else {
-            // Create new
-            AppState.articles.add({
-                id: Date.now(),
-                title,
-                concept,
-                content,
-                date: new Date().toLocaleDateString(),
-                notes: []
-            });
+            AppState.articles.add({ id: Date.now(), title, concept: conceptInput, content, date: new Date().toLocaleDateString() });
             Utils.notify('Article saved! 📝✨', 'success');
         }
         
-        AppState.concepts.clearSelection();
         showList();
     }
-    
+
     function viewArticle(id) {
         const article = AppState.articles.getById(id);
         if (!article) return;
 
         currentView = 'view';
         currentArticle = article;
-
-        document.getElementById('articlesListView').classList.add('hidden');
-        document.getElementById('articleFormView').classList.add('hidden');
-        document.getElementById('singleArticleView').classList.remove('hidden');
+        ['singleArticleView'].forEach(id => document.getElementById(id).classList.remove('hidden'));
+        ['articlesListView', 'articleFormView'].forEach(id => document.getElementById(id).classList.add('hidden'));
 
         document.getElementById('viewTitle').textContent = article.title;
-        document.getElementById('viewConcept').textContent = article.concept;
+        document.getElementById('viewConcept').textContent = article.concept || 'N/A';
         document.getElementById('viewDate').textContent = article.date;
-
+        
         const lastEditedRow = document.getElementById('lastEditedRow');
+        lastEditedRow.classList.toggle('hidden', !article.lastEdited);
         if (article.lastEdited) {
-            lastEditedRow.classList.remove('hidden');
             document.getElementById('viewLastEdited').textContent = article.lastEdited;
-        } else {
-            lastEditedRow.classList.add('hidden');
         }
-
+        
         document.getElementById('viewContent').innerHTML = article.content.split('\n').map(p => `<p>${p}</p>`).join('');
     }
     
     function editArticle(id) {
         const articleId = id != null ? id : (currentArticle ? currentArticle.id : null);
-        const article = AppState.articles.getById(articleId);
-        if (article) {
-            showForm(article);
+        if (articleId) {
+            const article = AppState.articles.getById(articleId);
+            if (article) showForm(article);
         }
     }
-    
-    function toggleConcept(concept) {
-        AppState.concepts.toggleSelection(concept);
-        showList();
-    }
-    
-    function randomConcept() {
-        const concepts = AppState.concepts.getAll();
-        const random = concepts[Math.floor(Math.random() * concepts.length)];
-        toggleConcept(random);
-    }
-    
-    async function addNewConcept() {
-        const newConcept = await Utils.showModal('Enter a new concept to add to the permanent list:', 'Enter concept name...');
+
+    // --- Concept Helper Functions ---
+
+    function renderConceptHelper() {
+        const allConcepts = AppState.concepts.getAll();
+        const conceptInput = document.getElementById('articleConcept').value;
+        const selectedConcepts = conceptInput.toLowerCase().split(',').map(c => c.trim());
         
+        const tagsEl = document.getElementById('conceptTags');
+        tagsEl.innerHTML = allConcepts.map(c => {
+            const isSelected = selectedConcepts.includes(c.toLowerCase());
+            return `<div class="tag ${isSelected ? 'selected' : ''}" onclick="Articles.toggleConcept('${c.replace(/'/g, "\\'")}')">${c}</div>`;
+        }).join('');
+    }
+
+    function toggleConcept(concept) {
+        const conceptInput = document.getElementById('articleConcept');
+        let concepts = conceptInput.value.split(',').map(c => c.trim()).filter(Boolean);
+        const conceptLower = concept.toLowerCase();
+        const index = concepts.map(c => c.toLowerCase()).indexOf(conceptLower);
+
+        if (index > -1) {
+            concepts.splice(index, 1); // Remove it
+        } else {
+            concepts.push(concept); // Add it
+        }
+        
+        conceptInput.value = concepts.join(', ');
+        renderConceptHelper();
+    }
+
+    async function addNewConcept() {
+        const newConcept = await Utils.showModal('Enter a new concept:', 'e.g., Philosophy');
         if (newConcept && newConcept.trim()) {
             const trimmed = newConcept.trim();
             AppState.concepts.add(trimmed);
-            Utils.notify(`"${trimmed}" has been added to your concept list! 🎉`, 'success');
-            showList();
+            Utils.notify(`"${trimmed}" has been added to your concepts! 🎉`, 'success');
+            toggleConcept(trimmed); // Add the new concept to the input
+            renderConceptHelper();
         }
     }
-    
-    function useSelected() {
-        const selected = AppState.concepts.getSelected();
-        if (selected.length === 0) {
-            Utils.notify('Please select at least one concept first! 💡', 'warning');
+
+    function randomConcept() {
+        const allConcepts = AppState.concepts.getAll();
+        if (allConcepts.length === 0) {
+            Utils.notify("No concepts available to choose from. Add one first!", "warning");
             return;
         }
-        showForm();
+        const random = allConcepts[Math.floor(Math.random() * allConcepts.length)];
+        toggleConcept(random);
     }
     
     // Public API
     return {
-        show,
-        showList,
-        showForm,
-        saveArticle,
-        viewArticle,
-        editArticle,
-        toggleConcept,
-        randomConcept,
-        addNewConcept,
-        useSelected
+        show, showList, showForm, saveArticle, viewArticle, editArticle,
+        renderConceptHelper, toggleConcept, addNewConcept, randomConcept
     };
 })();
