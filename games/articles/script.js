@@ -13,6 +13,12 @@ var Articles = (function() {
         document.getElementById('articleFormView').classList.add('hidden');
         document.getElementById('singleArticleView').classList.add('hidden');
 
+        const searchInput = document.getElementById('conceptSearch');
+        if (searchInput) {
+            searchInput.removeEventListener('input', renderConceptSelector);
+            searchInput.addEventListener('input', renderConceptSelector);
+        }
+
         renderConceptSelector();
 
         const articles = AppState.articles.getAll();
@@ -28,12 +34,22 @@ var Articles = (function() {
         const concepts = AppState.concepts.getAll();
         const selected = AppState.concepts.getSelected();
 
+        const queryInput = document.getElementById('conceptSearch');
+        const query = queryInput ? queryInput.value.toLowerCase() : '';
+
         const tagsEl = document.getElementById('conceptTags');
         if (tagsEl) {
-            tagsEl.innerHTML = concepts.map(c => `
-                <div class="tag ${selected.includes(c) ? 'selected' : ''}"
-                     onclick="Articles.toggleConcept('${c.replace(/'/g, "\\'")}')">${c}</div>
-            `).join('');
+            tagsEl.innerHTML = concepts
+                .filter(c => c.toLowerCase().includes(query))
+                .map(c => {
+                    const escaped = c.replace(/'/g, "\\'");
+                    return `
+                        <div class="tag ${selected.includes(c) ? 'selected' : ''}"
+                             onclick="Articles.toggleConcept('${escaped}')">
+                             <span class="tag-text">${c}</span>
+                             ${selected.includes(c) ? '<span class="remove-tag">×</span>' : ''}
+                        </div>`;
+                }).join('');
         }
 
         const selectedList = document.getElementById('selectedList');
