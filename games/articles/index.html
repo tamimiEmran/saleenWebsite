@@ -1,66 +1,73 @@
-<div class="card wide-card" id="articlesSection">
-    <button class="back-button" data-action="back-to-menu">← Back to Main Menu</button>
+<main role="main" id="articlesMain" class="container">
+  <div class="card" id="articlesSection">
+    <header>
+      <button class="back-button" data-action="back-to-menu">← Back to Main Menu</button>
+    </header>
 
     <!-- =============================
          LIST VIEW
          ============================= -->
     <section id="articlesListView" class="article-view">
-        <h2>📝 Our Article Collection</h2>
+      <h1>📝 Our Article Collection</h1>
 
-        <div class="concept-suggestions" id="conceptSuggestions">
-            <h3>💡 Concept Suggestions</h3>
-            <p>Select multiple topics to write about! Click to add to your selection.</p>
-            <div class="suggestion-tags" id="conceptTags"></div>
-            <div class="selected-concepts">
-                <p><strong>Selected concepts:</strong>
-                    <span id="selectedList">None selected</span>
-                </p>
-            </div>
-            <div class="concept-buttons">
-                <button onclick="Articles.addNewConcept()" class="add-concept-btn">➕ Add New Concept</button>
-                <button onclick="Articles.useSelected()" class="use-selected-btn">✍️ Write with Selected</button>
-            </div>
+      <section class="concept-suggestions" id="conceptSuggestions">
+        <h3>💡 Concept Suggestions</h3>
+        <p class="muted">Select multiple topics to write about! Click to add to your selection.</p>
+        <div class="chip-list" id="conceptTags"></div>
+        <div class="selected-concepts">
+          <p><strong>Selected concepts:</strong> <span id="selectedList">None selected</span></p>
         </div>
+        <div class="actions">
+          <button onclick="Articles.addNewConcept()" class="btn btn-accent">➕ Add New Concept</button>
+          <button onclick="Articles.useSelected()" class="btn btn-secondary">✍️ Write with Selected</button>
+        </div>
+      </section>
 
-        <button onclick="Articles.showForm()" id="newArticleBtn">✍️ Write New Article</button>
-        <button onclick="Articles.randomConcept()" id="randomConceptBtn">🎲 Random Concept</button>
+      <footer class="actions">
+        <button onclick="Articles.showForm()" id="newArticleBtn" class="btn btn-primary">✍️ Write New Article</button>
+        <button onclick="Articles.randomConcept()" id="randomConceptBtn" class="btn btn-accent">🎲 Random Concept</button>
+      </footer>
 
-        <div id="articlesList" class="articles-grid"></div>
+      <div id="articlesList" class="articles-grid"></div>
     </section>
 
     <!-- =============================
          FORM VIEW
          ============================= -->
     <section id="articleFormView" class="article-view hidden">
-        <button onclick="Articles.showList()" class="back-button">← Back to Articles</button>
+      <button onclick="Articles.showList()" class="back-button">← Back to Articles</button>
 
-        <div class="article-form">
-            <h3 id="formTitle">✍️ Write New Article</h3>
-            <input type="text" id="articleTitle" placeholder="Article Title" />
-            <input type="text" id="articleConcept" placeholder="Concept/Topic" />
-            <textarea id="articleContent" placeholder="Start writing your thoughts here..."></textarea>
-            <button onclick="Articles.saveArticle()" id="saveArticleBtn">💾 Save Article</button>
-            <button onclick="Articles.showList()" class="cancel-btn">Cancel</button>
+      <div class="article-form">
+        <h3 id="formTitle">✍️ Write New Article</h3>
+        <input type="text" id="articleTitle" placeholder="Article Title" />
+        <input type="text" id="articleConcept" placeholder="Concept/Topic" />
+        <textarea id="articleContent" placeholder="Start writing your thoughts here..."></textarea>
+        <div class="actions">
+          <button onclick="Articles.saveArticle()" id="saveArticleBtn" class="btn btn-primary">💾 Save Article</button>
+          <button onclick="Articles.showList()" class="btn btn-secondary cancel-btn">Cancel</button>
         </div>
+      </div>
     </section>
 
     <!-- =============================
          SINGLE ARTICLE VIEW
          ============================= -->
     <section id="singleArticleView" class="article-view hidden">
-        <button onclick="Articles.showList()" class="back-button">← Back to Articles</button>
+      <button onclick="Articles.showList()" class="back-button">← Back to Articles</button>
 
-        <div class="article-header">
-            <h2 id="viewTitle"></h2>
-            <p><strong>Concept:</strong> <span id="viewConcept"></span></p>
-            <p><strong>Date:</strong> <span id="viewDate"></span></p>
-            <p id="lastEditedRow" class="hidden"><strong>Last Edited:</strong> <span id="viewLastEdited"></span></p>
-        </div>
+      <div class="article-header">
+        <h2 id="viewTitle"></h2>
+        <p><strong>Concept:</strong> <span id="viewConcept"></span></p>
+        <p><strong>Date:</strong> <span id="viewDate"></span></p>
+        <p id="lastEditedRow" class="hidden"><strong>Last Edited:</strong> <span id="viewLastEdited"></span></p>
+      </div>
 
-        <div class="article-content" id="viewContent"></div>
+      <div class="article-content" id="viewContent"></div>
 
-        <div class="article-actions">
-            <button onclick="Articles.editArticle()" id="editArticleBtn" class="edit-btn">✏️ Edit Article</button>
-        </div>
+      <div class="article-actions">
+        <button onclick="Articles.editArticle()" id="editArticleBtn" class="btn btn-primary edit-btn">✏️ Edit Article</button>
+      </div>
     </section>
 
+  </div>
+</main>
