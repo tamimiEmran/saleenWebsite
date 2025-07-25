@@ -1,22 +1,44 @@
 <div class="card wide-card" id="grievancesSection">
-    <button class="back-button" data-action="back-to-menu">← Back to Main Menu</button>
-    <h2>📋 How did I upset you? :( </h2>
-    <div class="grievance-form">
-        <textarea id="grievanceDetails" placeholder="فضفضيلي" rows="3"></textarea>
-        <div class="severity-control">
-            <label for="grievanceSeverity" class="severity-label">
-                How much did I fuck up?
-            </label>
-            <div class="severity-scale">
-                <span>بسيطة بس صحصح</span>
-                <span>حلعن ربكك</span>
-            </div>
-            <input type="range" id="grievanceSeverity" class="severity-slider" min="1" max="4" value="2" oninput="Grievances.updateSeverityLabel(this.value)">
-        </div>
-        <button onclick="Grievances.addGrievance()">Add Grievance</button>
+    <!-- Header -->
+    <div class="grievance-header">
+        <button type="button" class="back-button" data-action="back-to-menu">← Back</button>
+        <h2 class="grievance-title">Grievance Tracker</h2>
     </div>
-    <div id="grievanceHistory" class="grievance-history">
-        <h3>Current Grievances</h3>
-        <div id="grievanceList"></div>
+
+    <!-- Main Content -->
+    <div class="grievance-content">
+        <!-- Grievance Submission Form -->
+        <div class="control-group">
+            <label for="grievanceDetails" class="control-label">How did I upset you? :(</label>
+            <!-- MODIFICATION: Added oninput event to check button state -->
+            <textarea id="grievanceDetails" placeholder="فضفضيلي (Please tell me what happened)" rows="4" oninput="Grievances.checkInputs()"></textarea>
+        </div>
+
+        <div class="control-group">
+            <label for="grievanceSeverity" class="control-label">
+                <span>How much did I mess up?</span>
+                <span id="severityLabel" class="severity-value">Medium</span>
+            </label>
+            <div class="severity-slider-wrapper">
+                <input type="range" id="grievanceSeverity" class="severity-slider" min="1" max="4" value="2" oninput="Grievances.updateSeverityLabel(this.value)">
+                <div class="severity-scale">
+                    <span>Low</span>
+                    <span>Critical</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Grievances List -->
+        <div id="grievanceHistory" class="grievance-history">
+            <h3 class="history-title">Current Grievances</h3>
+            <div id="grievanceList">
+                <!-- Grievances will be rendered here by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer with Action Button -->
+    <div class="grievance-footer">
+        <button type="button" onclick="Grievances.addGrievance()" class="add-grievance-btn">Add Grievance</button>
     </div>
 </div>

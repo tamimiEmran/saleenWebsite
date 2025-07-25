@@ -1,92 +1,168 @@
 /* ===================================================================
-   SUGGESTIONS COMPONENT (Desktop First)
+   SUGGESTIONS COMPONENT - MOBILE-FIRST & THEMED
    =================================================================== */
 
-#suggestionsSection { padding: 0; }
-#suggestionsSection > h2, #suggestionsSection > .back-button { padding: 0 15px; }
+:root {
+    /* Using the same consistent theme colors */
+    --suggestion-primary: #007bff;
+    --suggestion-text: #212121;
+    --suggestion-text-light: #6c757d;
+    --suggestion-bg: #f8f9fa;
+    --suggestion-card-bg: #ffffff;
+    --suggestion-border: #dee2e6;
+    --suggestion-completed: #ced4da; /* Color for completed items */
+    
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --border-radius: 12px;
+}
 
-.suggestions-container { display: flex; flex-direction: column; gap: 20px; min-height: 600px; }
-.suggestion-tabs { display: flex; justify-content: center; gap: 10px; border-bottom: 1px solid #ddd; padding-bottom: 15px; }
-.tab-btn { background: #f0f0f0; color: #555; font-weight: bold; padding: 10px 20px; margin: 0; border: 2px solid transparent; }
-.tab-btn.active { background: #e8eaf6; color: #667eea; border-color: #667eea; transform: translateY(-2px); }
+/* Base Layout */
+.suggestion-section {
+    background-color: var(--suggestion-bg);
+    font-family: var(--font-family);
+    color: var(--suggestion-text);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    border: 1px solid var(--suggestion-border);
+}
 
-.cards-wrapper { display: flex; height: 400px; width: 300%; transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
-.suggestion-card { flex: 0 0 33.333%; background: #fff; border-radius: 15px; padding: 20px; margin: 0 10px; display: flex; flex-direction: column; height: 100%; }
+/* --- MODIFICATION STARTS HERE --- */
 
-.filter-row { display: flex; align-items: center; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
-.filter-btn { background: white; border: 1px solid #ddd; padding: 6px; font-size: 16px; border-radius: 6px; width: 36px; height: 36px; margin: 0; }
-.filter-btn.active { background: #667eea; border-color: #667eea; }
-.clear-filter-btn { background: #6c757d; color: white; padding: 5px 12px; font-size: 12px; border-radius: 5px; margin-left: auto; }
+.suggestion-header {
+    background-color: var(--suggestion-card-bg);
+    border-bottom: 1px solid var(--suggestion-border);
+    padding: 10px 15px 15px 15px; /* Added padding to the bottom */
+    display: flex;
+    flex-direction: column; /* Changed to a column layout */
+    align-items: flex-start; /* Align back button to the start */
+    gap: 15px; /* Create space between button and tabs */
+}
 
-.suggestions-list { flex: 1; overflow-y: auto; padding-right: 10px; }
-.empty-message { text-align: center; color: #999; margin-top: 50px; }
-.suggestion-item { display: flex; align-items: center; gap: 15px; padding: 12px; background: #f8f9fa; border-radius: 10px; margin-bottom: 10px; }
-.suggestion-item.completed { opacity: 0.6; }
-.suggestion-item.completed .suggestion-text, .suggestion-item.completed .suggestion-link { text-decoration: line-through; }
+/* Tab Navigation */
+.suggestion-tabs {
+    display: flex;
+    justify-content: center;
+    width: 100%; /* Make tabs span the full width */
+    background-color: var(--suggestion-bg);
+    border-radius: 10px;
+    padding: 4px;
+}
+
+/* --- MODIFICATION ENDS HERE --- */
+
+
+.tab-btn {
+    flex: 1;
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--suggestion-text-light);
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.tab-btn.active {
+    background-color: var(--suggestion-card-bg);
+    color: var(--suggestion-primary);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Main Content (Lists) */
+.suggestion-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 15px;
+}
+.suggestions-list.hidden { display: none; }
+
+.empty-message {
+    text-align: center;
+    color: var(--suggestion-text-light);
+    padding-top: 50px;
+}
+
+/* Suggestion Item Styling */
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--suggestion-card-bg);
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+    border: 1px solid var(--suggestion-border);
+}
+.suggestion-item.completed {
+    background-color: var(--suggestion-bg);
+    opacity: 0.7;
+}
+.suggestion-item.completed .suggestion-text,
+.suggestion-item.completed .suggestion-link {
+    text-decoration: line-through;
+    color: var(--suggestion-text-light);
+}
+
 .suggestion-item input[type="checkbox"] { width: 20px; height: 20px; }
 .suggestion-item label { display: flex; align-items: center; gap: 10px; flex: 1; }
-.suggestion-icon { font-size: 20px; }
-.suggestion-link { color: #667eea; text-decoration: none; }
-.suggestion-date { font-size: 12px; color: #999; margin-left: auto; }
+.suggestion-icon { font-size: 1.25rem; }
+.suggestion-link { color: var(--suggestion-primary); text-decoration: none; word-break: break-all; }
+.suggestion-date { font-size: 0.75rem; color: var(--suggestion-text-light); margin-left: auto; white-space: nowrap; }
 
-.suggestion-input-area { background: #f8f9fa; border-radius: 15px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-.input-row { display: flex; gap: 10px; }
-.input-row input, .input-row button { margin: 0; }
-
-.suggestion-options { display: flex; justify-content: space-between; align-items: center; }
-.icon-selector { display: flex; gap: 10px; margin: 0; }
-.icon-btn { background: white; border: 2px solid #ddd; font-size: 24px; width: 45px; height: 45px; margin: 0; }
-.icon-btn.selected { border-color: #667eea; transform: translateY(-2px); }
-
-.for-us-toggle-btn {
-    background: #f0f0f0;
-    color: #555;
-    border: 2px solid #ddd;
-    padding: 10px 15px;
-    font-weight: bold;
-    margin: 0;
+/* Footer & Input Area */
+.suggestion-footer {
+    padding: 15px;
+    background-color: var(--suggestion-card-bg);
+    border-top: 1px solid var(--suggestion-border);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
-.for-us-toggle-btn.active {
-    background: linear-gradient(45deg, #ff9a9e, #fecfef);
-    color: #a33b6f;
-    border-color: #ff9a9e;
-    box-shadow: 0 2px 8px rgba(255, 154, 158, 0.4);
-    transform: translateY(-1px);
+.input-form { display: flex; flex-direction: column; gap: 10px; }
+
+.icon-selector {
+    display: flex;
+    justify-content: space-around;
+    background: var(--suggestion-bg);
+    padding: 5px;
+    border-radius: 10px;
+}
+.icon-btn {
+    background: transparent;
+    border: 2px solid transparent;
+    font-size: 1.5rem;
+    padding: 5px;
+    border-radius: 8px;
+}
+.icon-btn.selected {
+    background-color: var(--suggestion-card-bg);
+    border-color: var(--suggestion-primary);
 }
 
-/* ===================================================================
-   MOBILE RESPONSIVE STYLES (max-width: 768px)
-   =================================================================== */
-@media (max-width: 768px) {
-    .suggestions-container { flex: 1; display: flex; flex-direction: column; overflow: hidden; gap: 0; }
-    .suggestion-tabs { border-bottom: 1px solid #eee; flex-shrink: 0; padding: 0; }
-    .tab-btn { flex: 1; padding: 15px 5px; font-size: 14px; background: none; border-bottom: 3px solid transparent; border-radius: 0; }
-    .tab-btn.active { color: #667eea; border-bottom-color: #667eea; transform: none; box-shadow: none; }
+#suggestionInput {
+    padding: 12px;
+    border: 1px solid var(--suggestion-border);
+    border-radius: 10px;
+    font-size: 1rem;
+}
+#suggestionInput:focus {
+    border-color: var(--suggestion-primary);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
 
-    .cards-wrapper { flex: 1; height: 100%; }
-    .suggestion-card { padding: 10px 0; margin: 0; box-shadow: none; border-radius: 0; }
-    .card-header { padding: 0 10px; }
-    .suggestions-list { flex: 1; overflow-y: auto; padding: 0 15px 10px 15px; }
-
-    /* --- MOBILE INPUT AREA --- */
-    .suggestion-input-area {
-        padding: 10px;
-        border-top: 1px solid #ddd;
-        border-radius: 0;
-        flex-shrink: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    .input-row { gap: 10px; align-items: center; }
-    .input-row input { flex: 1; background: white; border: 1px solid #ccc; padding: 12px; }
-    .input-row button { padding: 12px 20px; width: auto; }
-
-    .suggestion-options { justify-content: space-between; align-items: center; }
-    .icon-selector { flex-wrap: wrap; }
-    .icon-btn { width: 38px; height: 38px; font-size: 20px; border-radius: 8px; }
-    .icon-btn.selected { transform: none; }
-
-    .for-us-toggle-btn { padding: 8px 12px; font-size: 14px; }
-    .for-us-toggle-btn.active { transform: none; }
+.add-suggestion-btn {
+    background: var(--suggestion-primary);
+    color: white;
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: var(--border-radius);
+    width: 100%;
+}
+.add-suggestion-btn:disabled {
+    background: #c5c5c5;
+    cursor: not-allowed;
 }

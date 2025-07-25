@@ -1,52 +1,41 @@
-// js/modules/grievances.js
 var Grievances = (function() {
+
     function show() {
-        const list = document.getElementById("grievanceList");
-        if(list) list.innerHTML = renderGrievances();
+        renderGrievances();
         updateHistoryVisibility();
+        // Set initial severity label on load
+        updateSeverityLabel(document.getElementById('grievanceSeverity').value);
+        // Set initial button state
+        checkInputs(); 
     }
-    
+
     function renderGrievances() {
         const grievances = AppState.get('grievances') || [];
-        
+        const listEl = document.getElementById("grievanceList");
+
+        if (!listEl) return;
+
         if (grievances.length === 0) {
-            return '<p style="text-align: center; color: #666;">No grievances recorded. Hopefully it stays that way! 😊</p>';
+            listEl.innerHTML = '<p style="text-align: center; color: #666;">No grievances recorded. Phew! 😊</p>';
+            return;
         }
-        
-        return grievances.map((entry, idx) => `
-            <div class="grievance-card" style="
-                background: #f9f9f9;
-                padding: 15px;
-                border-radius: 10px;
-                margin-bottom: 10px;
-                border-left: 4px solid ${getSeverityColor(entry.severity)};
-            ">
-                <p style="margin-bottom: 10px; font-weight: bold;">${entry.details}</p>
-                <small style="color: #666;">Severity: ${entry.severity} • ${entry.date}</small>
-                <div style="margin-top: 10px;">
-                    <button onclick="Grievances.resolveGrievance(${idx})" style="
-                        padding: 8px 12px;
-                        background: ${entry.clickCount === 0 ? '#4caf50' : '#ff9800'};
-                        color: white;
-                        border: none;
-                        border-radius: 5px;
-                        cursor: pointer;
-                    ">
-                        ${entry.clickCount === 0 ? 'Resolved?' : 'Confirm Resolved'}
-                    </button>
+
+        listEl.innerHTML = grievances.map((entry, idx) => {
+            const isConfirming = entry.clickCount > 0;
+            const severityClass = `severity-${entry.severity.toLowerCase()}`;
+            
+            return `
+                <div class="grievance-card ${severityClass}">
+                    <p class="grievance-details">${entry.details}</p>
+                    <small class="grievance-meta">Severity: ${entry.severity} • ${entry.date}</small>
+                    <div class="grievance-actions">
+                        <button type="button" class="resolve-btn ${isConfirming ? 'confirm' : ''}" onclick="Grievances.resolveGrievance(${idx})">
+                            ${isConfirming ? 'Confirm Resolution' : 'Mark as Resolved'}
+                        </button>
+                    </div>
                 </div>
-            </div>
-        `).join('');
-    }
-    
-    function getSeverityColor(severity) {
-        switch (severity) {
-            case 'Low': return '#4caf50';
-            case 'Medium': return '#ff9800';
-            case 'High': return '#f44336';
-            case 'Critical': return '#9c27b0';
-            default: return '#757575';
-        }
+            `;
+        }).join('');
     }
     
     function updateHistoryVisibility() {
@@ -56,26 +45,42 @@ var Grievances = (function() {
             historyEl.style.display = grievances.length > 0 ? 'block' : 'none';
         }
     }
-    
+
     function updateSeverityLabel(value) {
-        const severities = ['', 'Low', 'Medium', 'High', 'Critical'];
+        // Map slider value (1-4) to text labels
+        const severities = ['Low', 'Medium', 'High', 'Critical'];
         const label = document.getElementById('severityLabel');
         if (label) {
-            label.textContent = severities[value];
+            // value is 1-based, array is 0-based
+            label.textContent = severities[value - 1];
         }
     }
     
+    // --- MODIFICATION STARTS HERE ---
+
+    function checkInputs() {
+        const details = document.getElementById('grievanceDetails').value.trim();
+        const addButton = document.querySelector('.add-grievance-btn');
+        if (addButton) {
+            // Disable the button if the details text is empty
+            addButton.disabled = !details;
+        }
+    }
+
+    // --- MODIFICATION ENDS HERE ---
+
     function addGrievance() {
         const details = document.getElementById('grievanceDetails').value.trim();
         const severityValue = document.getElementById('grievanceSeverity').value;
-        const severities = ['', 'Low', 'Medium', 'High', 'Critical'];
-        const severity = severities[severityValue];
-        
+        const severities = ['Low', 'Medium', 'High', 'Critical'];
+        const severity = severities[severityValue - 1]; // Adjust for 0-based array
+
         if (!details) {
-            Utils.notify('Please enter grievance details.', 'warning');
+            // This check is still useful as a fallback, though the button should be disabled.
+            Utils.notify('Please describe the grievance.', 'warning');
             return;
         }
-        
+
         const grievances = AppState.get('grievances') || [];
         grievances.push({
             details,
@@ -83,39 +88,43 @@ var Grievances = (function() {
             date: new Date().toLocaleDateString(),
             clickCount: 0
         });
-        
+
         AppState.set('grievances', grievances);
         
-        // Refresh view
+        // Clear input and refresh the view
+        document.getElementById('grievanceDetails').value = '';
         show();
         
-        Utils.notify('Grievance added to tracker', 'success');
+        Utils.notify('Grievance has been recorded.', 'success');
     }
-    
+
     function resolveGrievance(index) {
         const grievances = AppState.get('grievances') || [];
         const grievance = grievances[index];
-        
+
         if (!grievance) return;
-        
+
         grievance.clickCount = (grievance.clickCount || 0) + 1;
-        
+
         if (grievance.clickCount >= 2) {
             grievances.splice(index, 1);
             Utils.notify('Grievance resolved and removed! 🎉', 'success');
         } else {
-            Utils.notify('Click once more to confirm resolution', 'info');
+            Utils.notify('Are you sure? Click again to confirm.', 'info');
         }
-        
+
         AppState.set('grievances', grievances);
-        show();
+        show(); // Re-render the list
     }
-    
-    // Public API
+
+    // --- MODIFICATION STARTS HERE ---
+    // Expose the new function to the public API
     return {
         show,
         addGrievance,
         resolveGrievance,
-        updateSeverityLabel
+        updateSeverityLabel,
+        checkInputs 
     };
+    // --- MODIFICATION ENDS HERE ---
 })();

@@ -1,26 +1,174 @@
-.severity-control { margin: 15px 0; }
+/* ===================================================================
+   GRIEVANCES COMPONENT - MOBILE-FIRST & THEMED
+   =================================================================== */
 
-.severity-label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
+:root {
+    /* Using the same base theme colors */
+    --grievance-primary: #007bff;
+    --grievance-text: #212121;
+    --grievance-text-light: #6c757d;
+    --grievance-bg: #f8f9fa;
+    --grievance-card-bg: #ffffff;
+    --grievance-border: #dee2e6;
+    
+    /* Severity Colors */
+    --severity-low: #28a745;      /* Green */
+    --severity-medium: #ffc107;   /* Yellow */
+    --severity-high: #fd7e14;     /* Orange */
+    --severity-critical: #dc3545; /* Red */
+
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --border-radius: 12px;
 }
 
+/* Base Layout */
+.grievance-section {
+    background-color: var(--grievance-bg);
+    font-family: var(--font-family);
+    color: var(--grievance-text);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    border: 1px solid var(--grievance-border);
+}
+
+.grievance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--grievance-card-bg);
+    border-bottom: 1px solid var(--grievance-border);
+}
+
+.grievance-title {
+    font-size: clamp(1.1rem, 4vw, 1.25rem);
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.grievance-header .back-button {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+    background: var(--grievance-bg);
+    color: var(--grievance-text-light);
+    border: 1px solid var(--grievance-border);
+    border-radius: 10px;
+}
+
+/* Main Content Area */
+.grievance-content {
+    flex-grow: 1;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    overflow-y: auto;
+}
+
+.control-group { display: flex; flex-direction: column; gap: 12px; }
+.control-label { display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1rem; }
+
+/* Form Elements */
+#grievanceDetails {
+    padding: 12px;
+    border: 1px solid var(--grievance-border);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    min-height: 100px;
+    resize: vertical;
+    background-color: var(--grievance-card-bg);
+}
+#grievanceDetails:focus {
+    border-color: var(--grievance-primary);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.severity-value {
+    font-weight: 700;
+    color: var(--grievance-primary);
+    background-color: rgba(0, 123, 255, 0.1);
+    padding: 4px 10px;
+    border-radius: 10px;
+}
+
+/* --- MODIFICATION STARTS HERE --- */
+
+/* Adjust padding to give more room for the slider */
+.severity-slider-wrapper {
+    padding: 0 8px; /* Reduced side padding */
+}
+
+/* Make the slider input longer */
+.severity-slider-wrapper input[type="range"] {
+    width: 100%; /* Make slider fill the available space */
+    margin: 8px 0; /* Add some vertical spacing */
+}
+
+/* Remove the now-redundant padding from the scale itself */
 .severity-scale {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 5px;
-    font-size: 18px;
-    color: #666;
+    font-size: 0.8rem;
+    color: var(--grievance-text-light);
 }
 
-#grievanceSeverity.severity-slider,
-.severity-slider {
+/* --- MODIFICATION ENDS HERE --- */
+
+
+/* History & Grievance Cards */
+.grievance-history { display: none; } /* Hidden by default, shown by JS */
+.history-title { margin-bottom: 15px; font-size: 1.2rem; }
+.grievance-card {
+    background: var(--grievance-card-bg);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+    border-left: 5px solid var(--grievance-text-light); /* Default border */
+}
+/* Severity border colors */
+.grievance-card.severity-low { border-color: var(--severity-low); }
+.grievance-card.severity-medium { border-color: var(--severity-medium); }
+.grievance-card.severity-high { border-color: var(--severity-high); }
+.grievance-card.severity-critical { border-color: var(--severity-critical); }
+
+.grievance-details { font-weight: 600; margin-bottom: 10px; }
+.grievance-meta { font-size: 0.8rem; color: var(--grievance-text-light); }
+.grievance-actions { margin-top: 15px; }
+
+.resolve-btn {
+    padding: 8px 15px;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: var(--severity-low); /* Green for primary action */
+}
+.resolve-btn.confirm {
+    background-color: var(--severity-high); /* Orange/Red for confirm action */
+}
+
+/* Footer & Action Button */
+.grievance-footer {
+    padding: 15px;
+    background-color: var(--grievance-card-bg);
+    border-top: 1px solid var(--grievance-border);
+}
+
+.add-grievance-btn {
+    background: var(--grievance-primary);
+    color: white;
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: var(--border-radius);
     width: 100%;
-    height: 8px;
-    border-radius: 5px;
-    background: linear-gradient(to right, #4caf50, #ff9800, #f44336, #9c27b0);
-    outline: none;
+    transition: background-color 0.2s ease;
 }
-
-.grievance-history { margin-top: 30px; }
+.add-grievance-btn:disabled {
+    background: #c5c5c5;
+    cursor: not-allowed;
+}

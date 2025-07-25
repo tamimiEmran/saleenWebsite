@@ -1,10 +1,6 @@
-// js/modules/suggestions.js
 var Suggestions = (function() {
-    // --- MODULE STATE ---
-    let currentCard = 0;
-    let selectedIcon = 'link'; // Default icon
-    let forUs = true;
-    let activeFilter = null;
+    let currentListKey = 'forSaleen';
+    let selectedIcon = 'link';
 
     const icons = {
         movie: { emoji: '🎬', label: 'Movie' },
@@ -13,215 +9,156 @@ var Suggestions = (function() {
         book: { emoji: '📚', label: 'Book' },
         link: { emoji: '🔗', label: 'Link' }
     };
-
-    // --- RENDER FUNCTIONS ---
-
-    /**
-     * Main function to render the entire suggestions component.
-     * This is the primary entry point called by other modules.
-     */
-    function show() {
-        const wrapper = document.getElementById("cardsWrapper");
-        if(wrapper) wrapper.innerHTML = renderCards();
-        selectIcon(selectedIcon);
-        goToCard(currentCard);
-    }
-
-    /**
-     * Renders the HTML for the three suggestion cards.
-     */
-    function renderCards() {
-        const suggestions = AppState.get('suggestions') || { forSaleen: [], forEmran: [], forUs: [] };
-        const cards = [
-            { title: 'For Saleen', data: suggestions.forSaleen, key: 'forSaleen' },
-            { title: 'For Emran', data: suggestions.forEmran, key: 'forEmran' },
-            { title: 'For Us 💕', data: suggestions.forUs, key: 'forUs' }
-        ];
-        
-        return cards.map((card) => `
-            <div class="suggestion-card" data-key="${card.key}">
-                <div class="card-header">
-                    <div class="filter-row">
-                        <span class="filter-label">Filter:</span>
-                        ${Object.entries(icons).map(([key, icon]) => `
-                            <button class="filter-btn" data-icon="${key}" onclick="Suggestions.setFilter('${key}')" title="${icon.label}">
-                                ${icon.emoji}
-                            </button>
-                        `).join('')}
-                        ${activeFilter ? `<button class="clear-filter-btn" onclick="Suggestions.clearFilter()">Clear</button>` : ''}
-                    </div>
-                </div>
-                <div class="suggestions-list" id="list-${card.key}">
-                    ${renderSuggestions(card.data, card.key)}
-                </div>
-            </div>
-        `).join('');
-    }
     
-    /**
-     * Renders the individual suggestion items for a given list.
-     */
-    function renderSuggestions(suggestions, cardKey) {
-        if (!suggestions || suggestions.length === 0) {
-            return '<p class="empty-message">No suggestions yet! Add one below 👇</p>';
-        }
-        
-        const filtered = activeFilter ? suggestions.filter(s => s.type === activeFilter) : suggestions;
-        
-        if (filtered.length === 0) {
-            return `<p class="empty-message">No suggestions match the '${icons[activeFilter].label}' filter.</p>`;
-        }
+    // --- MODIFICATION: Friendly names for UI updates ---
+    const listNames = {
+        forSaleen: 'For You',
+        forEmran: 'For Me',
+        forUs: 'For Us 💕'
+    };
 
-        const sorted = [...filtered].sort((a, b) => a.completed - b.completed);
-        
-        return sorted.map(suggestion => getSuggestionHTML(suggestion, cardKey)).join('');
+    function show() {
+        renderAllLists();
+        showList(currentListKey);
+        selectIcon('link');
+        checkInputs();
     }
 
-    /**
-     * Generates the HTML for a single suggestion item.
-     */
+    function renderAllLists() {
+        const suggestions = AppState.get('suggestions') || { forSaleen: [], forEmran: [], forUs: [] };
+        for (const key in suggestions) {
+            renderList(key, suggestions[key]);
+        }
+    }
+
+    function renderList(key, items) {
+        const listEl = document.getElementById(`list-${key}`);
+        if (!listEl) return;
+
+        if (!items || items.length === 0) {
+            listEl.innerHTML = '<p class="empty-message">No suggestions yet! Add one below 👇</p>';
+            return;
+        }
+
+        const sorted = [...items].sort((a, b) => a.completed - b.completed);
+        listEl.innerHTML = sorted.map(item => getSuggestionHTML(item, key)).join('');
+    }
+
     function getSuggestionHTML(suggestion, cardKey) {
+        const isCompleted = suggestion.completed ? 'completed' : '';
+        const iconEmoji = icons[suggestion.type]?.emoji || '🔗';
+        const contentHTML = suggestion.isLink 
+            ? `<a href="${suggestion.content}" target="_blank" rel="noopener noreferrer" class="suggestion-link">${suggestion.content}</a>` 
+            : `<span class="suggestion-text">${suggestion.content}</span>`;
+
         return `
-            <div class="suggestion-item ${suggestion.completed ? 'completed' : ''}" data-id="${suggestion.id}">
+            <div class="suggestion-item ${isCompleted}" data-id="${suggestion.id}">
                 <input type="checkbox" id="check-${suggestion.id}" ${suggestion.completed ? 'checked' : ''} onchange="Suggestions.toggleComplete('${cardKey}', ${suggestion.id})">
                 <label for="check-${suggestion.id}">
-                    <span class="suggestion-icon">${icons[suggestion.type]?.emoji || '🔗'}</span>
-                    ${suggestion.isLink ? 
-                        `<a href="${suggestion.content}" target="_blank" rel="noopener noreferrer" class="suggestion-link">${suggestion.content}</a>` : 
-                        `<span class="suggestion-text">${suggestion.content}</span>`
-                    }
+                    <span class="suggestion-icon">${iconEmoji}</span>
+                    ${contentHTML}
                 </label>
                 <span class="suggestion-date">${suggestion.date}</span>
             </div>
         `;
     }
 
-    // --- UI & EVENT HANDLERS ---
-
-    function goToCard(index) {
-        currentCard = index;
-        const wrapper = document.getElementById('cardsWrapper');
-        if (wrapper) {
-            wrapper.style.transition = 'transform 0.3s ease';
-            wrapper.style.transform = `translateX(-${currentCard * 100 / 3}%)`;
-        }
+    function showList(key) {
+        currentListKey = key;
         
-        document.querySelectorAll('.suggestion-tabs .tab-btn').forEach((btn, i) => {
-            btn.classList.toggle('active', i === currentCard);
+        // Toggle which list is visible
+        document.querySelectorAll('.suggestions-list').forEach(list => {
+            list.classList.toggle('hidden', list.id !== `list-${key}`);
         });
+
+        // Toggle the active state on the tab buttons
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('onclick').includes(`'${key}'`));
+        });
+        
+        // --- MODIFICATION STARTS HERE: Update UI for context ---
+        const friendlyName = listNames[key] || 'a List';
+        const inputEl = document.getElementById('suggestionInput');
+        const addBtnEl = document.getElementById('addSuggestionBtn');
+
+        if (inputEl) {
+            inputEl.placeholder = `Add suggestion for '${friendlyName}'...`;
+        }
+        if (addBtnEl) {
+            addBtnEl.textContent = `Add to ${friendlyName}`;
+        }
+        // --- MODIFICATION ENDS HERE ---
     }
 
-    function handleInput() {
+    function checkInputs() {
         const input = document.getElementById('suggestionInput');
-        document.getElementById('addBtn').disabled = !input.value.trim();
-        if (isValidUrl(input.value.trim())) {
-            selectIcon('link');
+        const addBtn = document.getElementById('addSuggestionBtn');
+        if (addBtn) {
+            addBtn.disabled = !input.value.trim();
         }
     }
-    
+
     function handleEnter(event) {
-        if (event.key === 'Enter' && !document.getElementById('addBtn').disabled) {
+        if (event.key === 'Enter' && !document.getElementById('addSuggestionBtn').disabled) {
             addSuggestion();
         }
     }
-
+    
     function selectIcon(icon) {
         selectedIcon = icon;
         document.querySelectorAll('.icon-btn').forEach(btn => {
             btn.classList.toggle('selected', btn.dataset.icon === icon);
         });
     }
-    
-    /**
-     * Toggles the 'forUs' state and updates the UI of the button.
-     * Replaces the old checkbox logic.
-     */
-    function toggleForUs() {
-        forUs = !forUs;
-        const btn = document.querySelector('.for-us-toggle-btn');
-        if (btn) {
-            btn.classList.toggle('active', forUs);
-        }
-    }
-
-    // --- LOGIC & DATA MANIPULATION ---
 
     function isValidUrl(string) {
-        const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
-        return urlRegex.test(string);
+        try {
+            new URL(string);
+            return true;
+        } catch (_) {
+            return /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(string);
+        }
     }
     
     function addSuggestion() {
         const input = document.getElementById('suggestionInput');
         const content = input.value.trim();
         if (!content) return;
-        
-        const currentUser = App.getCurrentUser();
+
         const suggestion = {
-            id: Date.now(), type: selectedIcon, content,
-            isLink: isValidUrl(content), completed: false,
-            date: new Date().toLocaleDateString(), from: currentUser
+            id: Date.now(),
+            type: isValidUrl(content) ? 'link' : selectedIcon,
+            content,
+            isLink: isValidUrl(content),
+            completed: false,
+            date: new Date().toLocaleDateString()
         };
-        
-        const targetCard = forUs ? 'forUs' : (currentUser === 'Saleen' ? 'forEmran' : 'forSaleen');
-        
+
         const suggestions = AppState.get('suggestions') || { forSaleen: [], forEmran: [], forUs: [] };
-        suggestions[targetCard].push(suggestion);
+        suggestions[currentListKey].push(suggestion);
         AppState.set('suggestions', suggestions);
         
-        const listElement = document.getElementById(`list-${targetCard}`);
-        const emptyMessage = listElement.querySelector('.empty-message');
-        if (emptyMessage) emptyMessage.remove();
-        listElement.insertAdjacentHTML('beforeend', getSuggestionHTML(suggestion, targetCard));
+        renderList(currentListKey, suggestions[currentListKey]);
         
         input.value = '';
-        handleInput();
+        checkInputs();
+        selectIcon('link');
         Utils.notify(`Suggestion added! ${icons[suggestion.type].emoji}`, 'success');
     }
     
     function toggleComplete(cardKey, suggestionId) {
         const suggestions = AppState.get('suggestions');
-        const suggestion = suggestions[cardKey].find(s => s.id === suggestionId);
+        const cardSuggestions = suggestions[cardKey];
+        const suggestion = cardSuggestions.find(s => s.id === suggestionId);
         
         if (suggestion) {
             suggestion.completed = !suggestion.completed;
             AppState.set('suggestions', suggestions);
-
-            const itemElement = document.querySelector(`.suggestion-item[data-id="${suggestionId}"]`);
-            if (itemElement) {
-                itemElement.classList.toggle('completed', suggestion.completed);
-                if (suggestion.completed) itemElement.parentElement.appendChild(itemElement);
-            }
+            renderList(cardKey, cardSuggestions);
         }
     }
     
-    function setFilter(type) {
-        activeFilter = activeFilter === type ? null : type;
-        const wrapper = document.getElementById('cardsWrapper');
-        if (wrapper) {
-            wrapper.innerHTML = renderCards();
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.icon === activeFilter);
-            });
-        }
-    }
-    
-    function clearFilter() {
-        setFilter(null);
-    }
-    
-    // --- PUBLIC API ---
-    // These are the only functions accessible from other modules.
     return {
-        show,
-        goToCard,
-        handleInput,
-        handleEnter,
-        selectIcon,
-        toggleForUs, // New internal function exposed for the onclick event
-        addSuggestion,
-        toggleComplete,
-        setFilter,
-        clearFilter
+        show, showList, checkInputs, handleEnter, selectIcon, addSuggestion, toggleComplete
     };
 })();
