@@ -1,42 +1,57 @@
+<!-- CONFESSION ROULETTE GAME -->
 <div class="card confession-section" id="confessionSection">
-    <button class="back-button" data-action="back-to-menu">← Back to Main Menu</button>
-    <button onclick="Confessions.showHistory()" class="history-btn">📜 History</button>
-    <h2 class="confession-title">Confession Roulette 🎭</h2>
-    <div class="confession-layout">
-        <div class="probability-column">
-            <label class="probability-label">Send<br/>Probability</label>
-            <div class="slider-container">
-                <div class="slider-track"></div>
-                <input type="range" id="probabilitySlider" class="probability-slider" min="10" max="50" step="10" value="30" oninput="Confessions.updateProbability()" />
+    <!-- Main Header -->
+    <div class="confession-header">
+        <button type="button" class="back-button" data-action="back-to-menu">← Back</button>
+        <h2 class="confession-title">Confession Roulette</h2>
+        <button type="button" onclick="Confessions.showHistory()" class="history-btn" title="History & Points">📜</button>
+    </div>
+
+    <!-- Game Content -->
+    <div class="game-content">
+        <!-- 1. Probability Slider -->
+        <div class="control-group">
+            <label for="probabilitySlider" class="control-label">
+                <span>Risk & Reward</span>
+                <span id="probabilityValue" class="slider-value">30%</span>
+            </label>
+            <div class="slider-wrapper">
+                <input type="range" id="probabilitySlider" min="10" max="50" step="10" value="30" oninput="Confessions.updateProbability()" />
             </div>
-            <div id="probabilityValue">30%</div>
-            <p class="probability-hint">Lower = Safer but lower points <br/> Higher = Riskier but higher points <br/> 10% is 1 point and 50% is 5 points etc</p>
         </div>
-        <div class="confession-input-section">
-            <div class="result-container">
-                <div id="resultMessage" class="result-message hidden"></div>
-            </div>
-            <div class="examples">
-                <p>type a confession and shoot, depending on fate it's either saved or lost. <br/> If your secret is discarded you get a point. You can exchange points for favours from me (im trying to fuel your gambling addiction). <br/> Some examples are:</p>
-                <div class="example-buttons">
-                    <button onclick="Confessions.setStarter('One of the lines I hid from you is...')">One of the lines I hid from you is...</button>
-                    <button onclick="Confessions.setStarter('I\'ve never told you that...')">I've never told you that...</button>
-                    <button onclick="Confessions.setStarter('My most embarrassing moment was...')">My most embarrassing moment was...</button>
-                </div>
-            </div>
-            <div class="confession-input-row">
-                <input type="text" id="confessionInput" class="confession-input" placeholder="Type your confession ..." onkeypress="Confessions.handleEnter(event)" oninput="Confessions.checkInput()" />
-                <button onclick="Confessions.spin()" id="spinButton" class="spin-btn" disabled>🔫 Shoot!</button>
+
+        <!-- 2. Confession Input -->
+        <div class="control-group">
+            <label for="confessionInput" class="control-label">Your Secret</label>
+            <textarea id="confessionInput" class="confession-input" placeholder="Type your confession here..." oninput="Confessions.checkInput()"></textarea>
+            <div class="example-starters">
+                <button type="button" onclick="Confessions.setStarter('I\'ve never told you that...')">"I've never told you that..."</button>
+                <button type="button" onclick="Confessions.setStarter('My most embarrassing moment was...')">"My embarrassing moment..."</button>
             </div>
         </div>
     </div>
+    
+    <!-- 3. Footer with Action Button -->
+    <div class="game-footer">
+        <button type="button" onclick="Confessions.spin()" id="spinButton" class="spin-btn" disabled>
+            <span class="icon">🔫</span> Shoot!
+        </button>
+    </div>
+
+
+    <!-- Result Message Overlay -->
+    <div id="resultOverlay" class="result-overlay hidden" onclick="Confessions.hideResult()">
+        <div id="resultContent" class="result-content" onclick="event.stopPropagation()"></div>
+    </div>
 </div>
-<div id="confessionHistoryModal" class="modal-overlay hidden">
-    <div class="modal-content">
-        <h3>📜 Confession History</h3>
-        <div id="confessionHistoryList"></div>
-        <div class="modal-buttons">
-            <button onclick="Confessions.hideHistory()">Close</button>
+
+<!-- History Modal -->
+<div id="confessionHistoryModal" class="modal-overlay hidden" onclick="Confessions.hideHistory()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h3>📜 History & Points</h3>
+            <button type="button" class="close-btn" onclick="Confessions.hideHistory()">×</button>
         </div>
+        <div id="confessionHistoryList" class="modal-body"></div>
     </div>
 </div>
