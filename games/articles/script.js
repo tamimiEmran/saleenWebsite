@@ -31,22 +31,11 @@ var Articles = (function() {
         const tagsEl = document.getElementById('conceptTags');
         if (tagsEl) {
             tagsEl.innerHTML = concepts.map(c => `
-                <button class="concept-chip ${selected.includes(c) ? 'selected' : ''}"
-                        onclick="Articles.toggleConcept('${c.replace(/'/g, "\\'")}')"
-                        aria-pressed="${selected.includes(c)}">
-                    ${c}
-                </button>
+                <div class="tag ${selected.includes(c) ? 'selected' : ''}"
+                     onclick="Articles.toggleConcept('${c.replace(/'/g, "\\'")}')">${c}</div>
             `).join('');
         }
 
-        const selectedList = document.getElementById('selectedList');
-        if (selectedList) {
-            selectedList.textContent = selected.length ? selected.join(', ') : 'None selected';
-        }
-    }
-
-    function updateSelectedList() {
-        const selected = AppState.concepts.getSelected();
         const selectedList = document.getElementById('selectedList');
         if (selectedList) {
             selectedList.textContent = selected.length ? selected.join(', ') : 'None selected';
@@ -62,8 +51,8 @@ var Articles = (function() {
                 ${article.lastEdited ? `<p><strong>Last Edited:</strong> ${article.lastEdited}</p>` : ''}
                 <p>${article.content.substring(0, 150)}${article.content.length > 150 ? '...' : ''}</p>
                 <div class="article-card-actions">
-                    <button onclick="Articles.viewArticle(${article.id})" class="btn btn-primary">📖 Read Full Article</button>
-                    <button onclick="Articles.editArticle(${article.id})" class="btn btn-secondary edit-article-btn">✏️ Edit</button>
+                    <button onclick="Articles.viewArticle(${article.id})">📖 Read Full Article</button>
+                    <button onclick="Articles.editArticle(${article.id})" class="edit-article-btn">✏️ Edit</button>
                 </div>
             </div>
         `;
@@ -151,14 +140,7 @@ var Articles = (function() {
     
     function toggleConcept(concept) {
         AppState.concepts.toggleSelection(concept);
-        const chips = document.querySelectorAll('.concept-chip');
-        chips.forEach(chip => {
-            if (chip.textContent.trim() === concept) {
-                const selected = chip.classList.toggle('selected');
-                chip.setAttribute('aria-pressed', selected);
-            }
-        });
-        updateSelectedList();
+        showList();
     }
     
     function randomConcept() {
