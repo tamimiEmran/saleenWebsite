@@ -10,6 +10,7 @@
         <div class="concept-suggestions" id="conceptSuggestions">
             <h3>💡 Concept Suggestions</h3>
             <p>Select multiple topics to write about! Click to add to your selection.</p>
+            <input type="text" id="conceptSearch" placeholder="Search concepts..." class="concept-search" />
             <div class="suggestion-tags" id="conceptTags"></div>
             <div class="selected-concepts">
                 <p><strong>Selected concepts:</strong>
@@ -28,6 +29,7 @@
         <div id="articlesList" class="articles-grid"></div>
     </section>
 
+    <button class="fab" onclick="Articles.useSelected()">✍️</button>
     <!-- =============================
          FORM VIEW
          ============================= -->
