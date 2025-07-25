@@ -2,15 +2,20 @@
    ARTICLES COMPONENT
    =================================================================== */
 
-#articlesSection { padding: 0 15px; }
+#articlesSection {
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
 .concept-search {
     width: 100%;
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    margin: 10px 0;
-    font-size: 14px;
+    padding: 10px 14px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    margin: 15px 0;
+    font-size: 15px;
 }
 
 .articles-grid {
@@ -65,20 +70,21 @@
 .suggestion-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin: 10px 0;
+    gap: 10px;
+    margin: 10px 0 15px;
     overflow-x: auto;
 }
 
 .tag {
     background: #f0f0f0;
     border: 1px solid #ddd;
-    padding: 6px 10px;
-    border-radius: 6px;
+    padding: 8px 12px;
+    border-radius: 20px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
+    font-size: 14px;
 }
 
 .remove-tag {
@@ -87,38 +93,44 @@
 }
 
 .tag.selected {
-    background: #667eea;
-    color: white;
-    border-color: #667eea;
+    background: #5b8def;
+    color: #fff;
+    border-color: #5b8def;
 }
 
 .selected-concepts {
     margin-top: 10px;
+    text-align: center;
 }
 
 .selected-concepts p {
     line-height: 1.4;
-    padding: 4px 0;
+    padding: 6px 0;
 }
 
 .no-articles-msg {
     text-align: center;
     color: #666;
+    padding-top: 20px;
 }
 
 .concept-buttons {
     margin-top: 15px;
     display: flex;
+    flex-direction: column;
     gap: 10px;
-    flex-wrap: wrap;
 }
 
 .add-concept-btn {
     background: linear-gradient(45deg, #6c757d, #495057);
+    width: 100%;
+    margin: 0;
 }
 
 .use-selected-btn {
-    background: linear-gradient(45deg, #667eea, #764ba2);
+    background: linear-gradient(45deg, #5b8def, #8f50e7);
+    width: 100%;
+    margin: 0;
 }
 
 .edit-article-btn {
@@ -127,6 +139,13 @@
 
 .cancel-btn {
     background: #6c757d;
+}
+
+#newArticleBtn,
+#randomConceptBtn {
+    background: linear-gradient(45deg, #5b8def, #8f50e7);
+    width: 100%;
+    margin: 0 0 10px;
 }
 
 .fab {
@@ -142,6 +161,7 @@
     justify-content: center;
     padding: 0;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 999;
 }
 
 @media (min-width: 769px) {
@@ -149,6 +169,11 @@
 }
 
 @media (max-width: 768px) {
-    #articlesSection { padding: 0; }
+    /* preserve horizontal padding so inputs aren't flush to the edges */
+    #articlesSection {
+        padding: 0 15px;
+    }
     .article-card { border-radius: 10px; padding: 15px; }
+    /* push FAB further above bottom controls */
+    .fab { bottom: 100px; }
 }
